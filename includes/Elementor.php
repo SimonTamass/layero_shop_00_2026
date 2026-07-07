@@ -55,6 +55,7 @@ final class Elementor {
 			'Why_Shop',
 			'Newsletter_Banner',
 			'Footnotes',
+			'Static_Page',
 		);
 
 		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Base_Widget.php';

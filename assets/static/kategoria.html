@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Termékek — Layero Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="shop.css">
+</head>
+<body data-page="kategoria">
+
+  <section class="sh-section" style="padding-top: clamp(32px, 5vw, 56px);">
+    <div class="shop-wrap">
+      <div class="sh-section-hd">
+        <div>
+          <h2 class="sh-h2" id="sh-cat-title">Összes termék</h2>
+          <p id="sh-cat-count">—</p>
+        </div>
+      </div>
+      <div class="sh-filterbar">
+        <button class="sh-filter-toggle" id="sh-filter-toggle" type="button" aria-controls="sh-filters" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          Szűrők
+          <b class="sh-filter-badge" id="sh-filter-badge" hidden>0</b>
+        </button>
+        <div class="sh-pills" id="sh-cat-pills"></div>
+        <select class="sh-sort" id="sh-sort" aria-label="Rendezés">
+          <option value="alap">Ajánlott sorrend</option>
+          <option value="ar-fel">Ár szerint növekvő</option>
+          <option value="ar-le">Ár szerint csökkenő</option>
+          <option value="ertekeles">Értékelés szerint</option>
+          <option value="nev">Név szerint (A–Z)</option>
+        </select>
+      </div>
+      <div class="sh-cat-layout">
+        <aside class="sh-filters" id="sh-filters" aria-label="Szűrők"></aside>
+        <div class="sh-cat-main">
+          <div class="sh-chips" id="sh-active-chips" hidden></div>
+          <div class="sh-prod-grid" id="sh-cat-products"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="sh-filters-ov" id="sh-filters-ov" aria-hidden="true"></div>
+
+  <script src="shop-data.js"></script>
+  <script src="shop.js"></script>
+</body>
+</html>

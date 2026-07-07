@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Kapcsolat — Layero Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="shop.css">
+</head>
+<body data-page="kapcsolat">
+
+  <section class="sh-contact shop-wrap">
+    <div>
+      <h1>Beszéljünk az ötletedről.</h1>
+      <p class="sh-contact__lead">Kérdésed van egy termékről, vagy valami teljesen egyedit szeretnél? Írj nekünk — általában 24 órán belül válaszolunk.</p>
+      <div class="sh-contact__item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.77.62 2.61a2 2 0 0 1-.45 2.11L8.09 9.63a16 16 0 0 0 6.28 6.28l1.19-1.19a2 2 0 0 1 2.11-.45c.84.29 1.71.5 2.61.62A2 2 0 0 1 22 16.92Z"/></svg>
+        <div><span>Telefon</span><strong>+40 756 642 387</strong></div>
+      </div>
+      <div class="sh-contact__item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        <div><span>E-mail</span><strong>layeroprint@gmail.com</strong></div>
+      </div>
+      <div class="sh-contact__item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div><span>Műhely</span><strong>Szatmárnémeti, Románia</strong></div>
+      </div>
+    </div>
+
+    <form class="sh-form" id="sh-contact-form">
+      <div class="sh-form__row">
+        <div class="sh-field">
+          <label for="cf-nev">Név</label>
+          <input id="cf-nev" type="text" required autocomplete="name">
+        </div>
+        <div class="sh-field">
+          <label for="cf-email">E-mail</label>
+          <input id="cf-email" type="email" required autocomplete="email">
+        </div>
+      </div>
+      <div class="sh-field">
+        <label for="cf-tema">Miben segíthetünk?</label>
+        <select id="cf-tema">
+          <option>Kérdésem van egy termékről</option>
+          <option>Egyedi ötletem van</option>
+          <option>Céges megrendelés</option>
+          <option>Egyéb</option>
+        </select>
+      </div>
+      <div class="sh-field">
+        <label for="cf-uzenet">Üzenet</label>
+        <textarea id="cf-uzenet" required placeholder="Írd le röviden, mire gondoltál…"></textarea>
+      </div>
+      <button class="sh-btn sh-btn--primary" type="submit">Üzenet küldése</button>
+    </form>
+  </section>
+
+  <script src="shop-data.js"></script>
+  <script src="shop.js"></script>
+</body>
+</html>

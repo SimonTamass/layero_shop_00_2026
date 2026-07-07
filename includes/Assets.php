@@ -32,6 +32,13 @@ final class Assets {
 			LAYERO_SHOP_UI_VERSION
 		);
 
+		wp_register_style(
+			'layero-static-shop',
+			LAYERO_SHOP_UI_URL . 'assets/css/layero-static-shop.css',
+			array(),
+			LAYERO_SHOP_UI_VERSION
+		);
+
 		wp_register_script(
 			'layero-shop-ui',
 			LAYERO_SHOP_UI_URL . 'assets/js/layero-shop-ui.js',
@@ -39,11 +46,54 @@ final class Assets {
 			LAYERO_SHOP_UI_VERSION,
 			true
 		);
+
+		wp_register_script(
+			'layero-static-data',
+			LAYERO_SHOP_UI_URL . 'assets/js/layero-static-data.js',
+			array(),
+			LAYERO_SHOP_UI_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'layero-static-shop',
+			LAYERO_SHOP_UI_URL . 'assets/js/layero-static-shop.js',
+			array('layero-static-data'),
+			LAYERO_SHOP_UI_VERSION,
+			true
+		);
 	}
 
 	public function enqueue() {
 		wp_enqueue_style('layero-shop-ui');
+		wp_enqueue_style('layero-static-shop');
 		wp_enqueue_script('layero-shop-ui');
+		wp_enqueue_script('layero-static-data');
+		wp_enqueue_script('layero-static-shop');
+
+		wp_add_inline_script(
+			'layero-static-data',
+			'window.LayeroShopStatic = window.LayeroShopStatic || ' . wp_json_encode(
+				array(
+					'assetBase' => trailingslashit(LAYERO_SHOP_UI_URL . 'assets/demo'),
+					'homeUrl' => home_url('/'),
+					'urls' => array(
+						'index.html' => home_url('/'),
+						'kategoria.html' => home_url('/termekek/'),
+						'rolunk.html' => home_url('/rolunk/'),
+						'gyik.html' => home_url('/gyik/'),
+						'kapcsolat.html' => home_url('/kapcsolat/'),
+						'kviz.html' => home_url('/kviz/'),
+						'kosar.html' => home_url('/kosar/'),
+						'penztar.html' => home_url('/penztar/'),
+						'fiok.html' => home_url('/fiok/'),
+						'kedvencek.html' => home_url('/kedvencek/'),
+						'termek.html' => home_url('/termek/'),
+					),
+				)
+			) . ';',
+			'before'
+		);
 
 		wp_localize_script(
 			'layero-shop-ui',
