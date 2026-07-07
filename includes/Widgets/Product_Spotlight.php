@@ -26,14 +26,25 @@ class Product_Spotlight extends Base_Widget {
 	protected function register_controls() {
 		$this->start_controls_section('content_section', array('label' => __('Termék', 'layero-shop-ui')));
 		$this->add_control('product_id', array(
-			'label' => __('Termék ID', 'layero-shop-ui'),
+			'label' => __('WooCommerce termék ID', 'layero-shop-ui'),
 			'type' => Controls_Manager::NUMBER,
-			'description' => __('Ha üres, az első kiemelt WooCommerce terméket használja. Fallback: Karácsonyi kedvenc-lámpa.', 'layero-shop-ui'),
+			'description' => __('Ha üres, az első kiemelt WooCommerce terméket használja.', 'layero-shop-ui'),
+		));
+		$this->add_control('demo_product_id', array(
+			'label' => __('Fallback demó termék', 'layero-shop-ui'),
+			'type' => Controls_Manager::SELECT,
+			'default' => 'karacsonyi-lampa',
+			'options' => wp_list_pluck(Shop_Content::products(), 'name', 'id'),
 		));
 		$this->add_control('eyebrow', array(
 			'label' => __('Kis felirat', 'layero-shop-ui'),
 			'type' => Controls_Manager::TEXT,
 			'default' => 'A hónap terméke',
+		));
+		$this->add_control('button_text', array(
+			'label' => __('Gomb szöveg', 'layero-shop-ui'),
+			'type' => Controls_Manager::TEXT,
+			'default' => 'Megnézem a terméket',
 		));
 		$this->end_controls_section();
 	}
@@ -56,19 +67,22 @@ class Product_Spotlight extends Base_Widget {
 				<div class="lyr-spotlight__copy">
 					<span><?php echo esc_html($settings['eyebrow'] ?? 'A hónap terméke'); ?></span>
 					<h2><?php echo esc_html($product->get_name()); ?></h2>
-					<p><?php echo esc_html(wp_strip_all_tags($product->get_short_description() ?: $product->get_description())); ?></p>
+					<p><?php echo esc_html(wp_trim_words(wp_strip_all_tags($product->get_short_description() ?: $product->get_description()), 34)); ?></p>
 					<div class="lyr-spotlight__price"><?php echo wp_kses_post($product->get_price_html()); ?></div>
-					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(get_permalink($product->get_id())); ?>"><?php echo esc_html__('Megnézem a terméket', 'layero-shop-ui'); ?></a>
+					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(get_permalink($product->get_id())); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
 				</div>
 			<?php else : ?>
-				<?php $demo = Shop_Content::spotlight_product(); ?>
+				<?php $demo = Shop_Content::spotlight_product($settings['demo_product_id'] ?? ''); ?>
 				<figure><img src="<?php echo esc_url(Shop_Content::asset_url($demo['image'])); ?>" alt="<?php echo esc_attr($demo['name']); ?>" loading="lazy"></figure>
 				<div class="lyr-spotlight__copy">
 					<span><?php echo esc_html($settings['eyebrow'] ?? 'A hónap terméke'); ?></span>
 					<h2><?php echo esc_html($demo['name']); ?></h2>
 					<p><?php echo esc_html($demo['description']); ?></p>
-					<div class="lyr-spotlight__price"><?php echo esc_html(number_format_i18n($demo['price'], 0)); ?> RON <small><?php echo esc_html__('-tól, egyedi gyártással', 'layero-shop-ui'); ?></small></div>
-					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(home_url('/product/' . $demo['id'] . '/')); ?>"><?php echo esc_html__('Megnézem a terméket', 'layero-shop-ui'); ?></a>
+					<div class="lyr-spotlight__price">
+						<?php echo $demo['price'] ? esc_html(number_format_i18n($demo['price'], 0) . ' RON') : esc_html__('Ajánlatkérés', 'layero-shop-ui'); ?>
+						<small><?php echo esc_html__('-tól, egyedi gyártással', 'layero-shop-ui'); ?></small>
+					</div>
+					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(home_url('/product/' . $demo['id'] . '/')); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
 				</div>
 			<?php endif; ?>
 		</section>

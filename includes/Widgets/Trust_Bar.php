@@ -32,11 +32,11 @@ class Trust_Bar extends Base_Widget {
 			'type' => Controls_Manager::SELECT,
 			'default' => 'truck',
 			'options' => array(
-				'truck' => 'Szállítás',
-				'tag' => 'Minimum rendelés',
-				'bolt' => 'Gyors gyártás',
-				'shield' => 'Garancia',
-				'leaf' => 'Eco',
+				'truck' => __('Szállítás', 'layero-shop-ui'),
+				'tag' => __('Minimum rendelés', 'layero-shop-ui'),
+				'bolt' => __('Gyors gyártás', 'layero-shop-ui'),
+				'shield' => __('Garancia', 'layero-shop-ui'),
+				'leaf' => __('Eco', 'layero-shop-ui'),
 			),
 		));
 		$repeater->add_control('title', array('label' => __('Cím', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT));
@@ -47,6 +47,15 @@ class Trust_Bar extends Base_Widget {
 			'title_field' => '{{{ title }}}',
 			'default' => Shop_Content::trust_items(),
 		));
+		$this->add_control('style', array(
+			'label' => __('Stílus', 'layero-shop-ui'),
+			'type' => Controls_Manager::SELECT,
+			'default' => 'light',
+			'options' => array(
+				'light' => __('Világos', 'layero-shop-ui'),
+				'dark' => __('Sötét', 'layero-shop-ui'),
+			),
+		));
 		$this->end_controls_section();
 	}
 
@@ -54,11 +63,11 @@ class Trust_Bar extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$items = ! empty($settings['items']) ? $settings['items'] : Shop_Content::trust_items();
 		?>
-		<div class="lyr-trust-bar">
+		<div class="lyr-trust-bar lyr-trust-bar--<?php echo esc_attr($settings['style'] ?? 'light'); ?>">
 			<?php foreach ($items as $item) : ?>
 				<article>
-					<?php echo Helpers::icon($item['icon']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					<div><strong><?php echo esc_html($item['title']); ?></strong><span><?php echo esc_html($item['text']); ?></span></div>
+					<?php echo Helpers::icon($item['icon'] ?? 'check'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<div><strong><?php echo esc_html($item['title'] ?? ''); ?></strong><span><?php echo esc_html($item['text'] ?? ''); ?></span></div>
 				</article>
 			<?php endforeach; ?>
 		</div>

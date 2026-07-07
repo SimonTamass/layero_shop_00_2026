@@ -54,6 +54,7 @@ final class Assets {
 				'checkoutUrl' => function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : '',
 				'i18n' => array(
 					'added' => __('Kosárba téve', 'layero-shop-ui'),
+					'subscribed' => __('Köszönjük, a kuponkódot e-mailben küldjük.', 'layero-shop-ui'),
 				),
 			)
 		);

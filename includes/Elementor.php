@@ -37,20 +37,35 @@ final class Elementor {
 			return;
 		}
 
-		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Base_Widget.php';
-		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Hero_Slider.php';
-		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Product_Grid.php';
-		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Category_Bento.php';
-		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Product_Spotlight.php';
-		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Trust_Bar.php';
-		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Lab_Preview.php';
+		$widgets = array(
+			'Hero_Slider',
+			'Trust_Bar',
+			'Value_Marquee',
+			'Category_Bento',
+			'Process_Steps',
+			'Lab_Preview',
+			'Product_Grid',
+			'Quiz_CTA',
+			'Product_Spotlight',
+			'Product_Carousel',
+			'Why_Layero',
+			'Testimonials',
+			'Gallery_Strip',
+			'Custom_CTA',
+			'Why_Shop',
+			'Newsletter_Banner',
+			'Footnotes',
+		);
 
-		$widgets_manager->register(new Widgets\Hero_Slider());
-		$widgets_manager->register(new Widgets\Product_Grid());
-		$widgets_manager->register(new Widgets\Category_Bento());
-		$widgets_manager->register(new Widgets\Product_Spotlight());
-		$widgets_manager->register(new Widgets\Trust_Bar());
-		$widgets_manager->register(new Widgets\Lab_Preview());
+		require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/Base_Widget.php';
+
+		foreach ($widgets as $widget) {
+			require_once LAYERO_SHOP_UI_PATH . 'includes/Widgets/' . $widget . '.php';
+
+			$class = __NAMESPACE__ . '\\Widgets\\' . $widget;
+			if (class_exists($class)) {
+				$widgets_manager->register(new $class());
+			}
+		}
 	}
 }
-

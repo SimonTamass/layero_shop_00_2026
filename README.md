@@ -11,9 +11,9 @@ A plugin jelenleg a statikus shop alábbi tartalmaira épül:
 - 3 főoldali hero slide
 - 6 kategória: `lampak`, `kulcstartok`, `dekoraciok`, `ceges`, `rajongoi`, `egyedi`
 - 20 Layero termék demó/fallback adata
-- népszerű termék sorrend
+- népszerű termék sorrend és újdonság válogatás
 - `karacsonyi-lampa` mint hónap terméke fallback
-- shopos trust bar: ingyenes szállítás, 50 lej minimum, gyors gyártás, PLA + napelemes gyártás
+- shopos trust bar, érték-marquee, folyamatlépések, ajándékkereső CTA, összehasonlító blokk, vélemények, galéria, egyedi rendelés CTA, shop-bizalom, hírlevél és lábjegyzetek
 - demo képek a pluginben: `assets/demo`
 
 ## Elementor widgetek
@@ -21,11 +21,22 @@ A plugin jelenleg a statikus shop alábbi tartalmaira épül:
 Az Elementor szerkesztőben a `Layero Shop` kategória alatt:
 
 - `Layero főoldali slider`
-- `Layero termékrács`
-- `Layero kategóriák`
-- `Layero kiemelt termék`
 - `Layero bizalmi sáv`
+- `Layero érték-marquee`
+- `Layero kategóriák`
+- `Layero folyamat lépések`
 - `Layero Lab előnézet`
+- `Layero termékrács`
+- `Layero ajándékkereső CTA`
+- `Layero kiemelt termék`
+- `Layero termék-körhinta`
+- `Layero összehasonlító blokk`
+- `Layero vélemények`
+- `Layero galéria csík`
+- `Layero egyedi rendelés CTA`
+- `Layero Shop bizalom ikonok`
+- `Layero hírlevél banner`
+- `Layero lábjegyzetek`
 
 ## WooCommerce integráció
 
@@ -67,5 +78,3 @@ Remote:
 ```text
 https://github.com/SimonTamass/layero_shop_00_2026.git
 ```
-
-Megjegyzés: a push GitHub jogosultságot igényel a repón. A helyi Git jelenleg elkészíthető, de push csak olyan GitHub felhasználóval megy, akinek van joga a `SimonTamass/layero_shop_00_2026` repóhoz.

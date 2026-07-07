@@ -9,7 +9,7 @@
 		var dotsWrap = root.querySelector('.lyr-hero__dots');
 		var prev = root.querySelector('.lyr-hero__nav--prev');
 		var next = root.querySelector('.lyr-hero__nav--next');
-		if (!slides.length || !dotsWrap) return;
+		if (!slides.length) return;
 
 		var current = 0;
 		var timer = null;
@@ -17,11 +17,16 @@
 		var startX = 0;
 		var startY = 0;
 		var dragged = false;
+		var speed = parseInt(root.getAttribute('data-layero-speed'), 10);
+		speed = Number.isFinite(speed) ? speed : 6500;
 
-		dotsWrap.innerHTML = slides.map(function (_, index) {
-			return '<button type="button" role="tab" aria-label="' + (index + 1) + '. slide"></button>';
-		}).join('');
-		var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('button'));
+		var dots = [];
+		if (dotsWrap) {
+			dotsWrap.innerHTML = slides.map(function (_, index) {
+				return '<button type="button" role="tab" aria-label="' + (index + 1) + '. slide"></button>';
+			}).join('');
+			dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('button'));
+		}
 
 		function go(index) {
 			current = (index + slides.length) % slides.length;
@@ -44,8 +49,8 @@
 
 		function start() {
 			stop();
-			if (slides.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				timer = window.setInterval(function () { go(current + 1); }, 6500);
+			if (speed > 0 && slides.length > 1 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				timer = window.setInterval(function () { go(current + 1); }, speed);
 			}
 		}
 
@@ -116,11 +121,16 @@
 		var name = root.querySelector('[data-layero-lab-name]');
 		var link = root.querySelector('[data-layero-lab-link]');
 		var form = root.querySelector('form');
+		var result = root.querySelector('[data-layero-lab-result]');
+		var stats = root.querySelector('[data-layero-lab-stats]');
 		if (!input || !name || !form) return;
 
 		function sync() {
 			var value = input.value.trim() || 'Layero';
 			name.textContent = value;
+			if (stats) {
+				stats.textContent = value.length + ' karakter, kb. ' + Math.max(9, value.length * 2) + ' nyomtatott réteg';
+			}
 			if (link) {
 				var href = link.getAttribute('href').split('?')[0];
 				link.setAttribute('href', href + '?layero_nev=' + encodeURIComponent(value));
@@ -131,9 +141,43 @@
 		form.addEventListener('submit', function (event) {
 			event.preventDefault();
 			sync();
-			if (link) window.location.href = link.getAttribute('href');
+			if (result) result.hidden = false;
 		});
 		sync();
+	}
+
+	function initCarousel(track) {
+		if (track.dataset.layeroCarouselReady === '1') return;
+		track.dataset.layeroCarouselReady = '1';
+
+		var root = track.closest('.lyr-product-carousel') || track.parentElement;
+		var prev = root ? root.querySelector('[data-layero-carousel-prev]') : null;
+		var next = root ? root.querySelector('[data-layero-carousel-next]') : null;
+
+		function move(direction) {
+			track.scrollBy({
+				left: direction * Math.max(280, Math.round(track.clientWidth * 0.78)),
+				behavior: 'smooth'
+			});
+		}
+
+		if (prev) prev.addEventListener('click', function () { move(-1); });
+		if (next) next.addEventListener('click', function () { move(1); });
+	}
+
+	function initNewsletter(form) {
+		if (form.dataset.layeroNewsletterReady === '1') return;
+		form.dataset.layeroNewsletterReady = '1';
+
+		form.addEventListener('submit', function (event) {
+			event.preventDefault();
+			var root = form.closest('.lyr-newsletter');
+			var note = root ? root.querySelector('[data-layero-newsletter-note]') : null;
+			form.classList.add('is-done');
+			if (note) {
+				note.textContent = (window.LayeroShopUI && LayeroShopUI.i18n && LayeroShopUI.i18n.subscribed) ? LayeroShopUI.i18n.subscribed : 'Köszönjük, feliratkoztál.';
+			}
+		});
 	}
 
 	function initMiniCart(root) {
@@ -153,6 +197,8 @@
 	function boot(context) {
 		(context || document).querySelectorAll('[data-layero-slider]').forEach(initSlider);
 		(context || document).querySelectorAll('[data-layero-lab]').forEach(initLab);
+		(context || document).querySelectorAll('[data-layero-carousel]').forEach(initCarousel);
+		(context || document).querySelectorAll('[data-layero-newsletter]').forEach(initNewsletter);
 		(context || document).querySelectorAll('.lyr-mini-cart').forEach(initMiniCart);
 	}
 

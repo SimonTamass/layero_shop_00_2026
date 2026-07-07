@@ -135,7 +135,7 @@ final class WooCommerce {
 		ob_start();
 		?>
 		<div class="lyr-mini-cart">
-			<button class="lyr-mini-cart__toggle" type="button" data-layero-cart-toggle>
+			<button class="lyr-mini-cart__toggle" type="button" data-layero-cart-toggle aria-expanded="false">
 				<?php echo Helpers::icon('cart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<span><?php echo esc_html__('Kosár', 'layero-shop-ui'); ?></span>
 				<b><?php echo esc_html(WC()->cart ? WC()->cart->get_cart_contents_count() : 0); ?></b>
