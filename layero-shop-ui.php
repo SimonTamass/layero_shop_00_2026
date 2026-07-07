@@ -1,0 +1,26 @@
+<?php
+/**
+ * Plugin Name: Layero Shop UI for Elementor + WooCommerce
+ * Description: Elementor widgetek es WooCommerce integracio a Layero shop design felepitesehez.
+ * Version: 0.1.0
+ * Author: Layero
+ * Text Domain: layero-shop-ui
+ * Domain Path: /languages
+ * Requires at least: 6.2
+ * Requires PHP: 7.4
+ * WC requires at least: 7.8
+ */
+
+if (! defined('ABSPATH')) {
+	exit;
+}
+
+define('LAYERO_SHOP_UI_VERSION', '0.1.0');
+define('LAYERO_SHOP_UI_FILE', __FILE__);
+define('LAYERO_SHOP_UI_PATH', plugin_dir_path(__FILE__));
+define('LAYERO_SHOP_UI_URL', plugin_dir_url(__FILE__));
+
+require_once LAYERO_SHOP_UI_PATH . 'includes/Plugin.php';
+
+LayeroShop\Plugin::instance();
+
