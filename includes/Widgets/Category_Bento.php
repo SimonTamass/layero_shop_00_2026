@@ -26,6 +26,7 @@ class Category_Bento extends Base_Widget {
 	protected function register_controls() {
 		$this->start_controls_section('content_section', array('label' => __('Tartalom', 'layero-shop-ui')));
 		$this->add_section_header_controls(array(
+			'eyebrow' => 'Kollekció',
 			'title' => 'Vásárlás kategória szerint.',
 			'button_text' => 'Összes termék',
 			'button_url' => array('url' => '/shop/'),

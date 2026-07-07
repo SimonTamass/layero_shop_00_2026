@@ -26,6 +26,7 @@ class Product_Carousel extends Base_Widget {
 	protected function register_controls() {
 		$this->start_controls_section('content_section', array('label' => __('Szekció', 'layero-shop-ui')));
 		$this->add_section_header_controls(array(
+			'eyebrow' => 'Most érkezett',
 			'title' => 'Újdonságok. <span>Frissen a nyomtatóból.</span>',
 		));
 		$this->end_controls_section();

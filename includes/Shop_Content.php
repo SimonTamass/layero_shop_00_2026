@@ -16,7 +16,7 @@ final class Shop_Content {
 			array(
 				'eyebrow' => 'Layero Shop',
 				'title' => 'Ajándék, ami <em>rólad</em> szól.',
-				'text' => 'Világító lámpák, kulcstartók és dekorációk - névvel, logóval, egyedi 3D gyártásban.',
+				'text' => 'Világító lámpák, kulcstartók és dekorációk — névvel, logóval, egyedi 3D gyártásban.',
 				'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0009.png')),
 				'button_text' => 'Vásárlás most',
 				'button_url' => array('url' => '/shop/'),
@@ -26,7 +26,7 @@ final class Shop_Content {
 			array(
 				'eyebrow' => 'Tematikus lámpák',
 				'title' => 'Névre szóló <em>fény</em>.',
-				'text' => 'Kedvenc film, játék, sport vagy hobbi - LED-világítással, saját névvel.',
+				'text' => 'Kedvenc film, játék, sport vagy hobbi — LED-világítással, saját névvel.',
 				'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0013.png')),
 				'button_text' => 'Lámpák megnézése',
 				'button_url' => array('url' => '/product-category/lampak/'),
@@ -36,7 +36,7 @@ final class Shop_Content {
 			array(
 				'eyebrow' => 'Egyedi rendelés',
 				'title' => 'Van egy ötleted? <em>Legyártjuk.</em>',
-				'text' => 'Küldj egy leírást vagy referenciaképet - megtervezzük és kinyomtatjuk.',
+				'text' => 'Küldj egy leírást vagy referenciaképet — megtervezzük és kinyomtatjuk.',
 				'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0010.png')),
 				'button_text' => 'Ajánlatot kérek',
 				'button_url' => array('url' => '/product/egyedi-otlet/'),
@@ -50,7 +50,7 @@ final class Shop_Content {
 		return array(
 			array('icon' => 'truck', 'title' => 'Ingyenes szállítás', 'text' => '200 lej feletti rendelésre'),
 			array('icon' => 'tag', 'title' => 'Már 50 lejtől', 'text' => 'alacsony minimális rendelés'),
-			array('icon' => 'bolt', 'title' => 'Gyors gyártás', 'text' => '5-10 munkanap alatt'),
+			array('icon' => 'bolt', 'title' => 'Gyors gyártás', 'text' => '5–10 munkanap alatt'),
 			array('icon' => 'leaf', 'title' => 'Környezetbarát', 'text' => 'PLA + napelemes gyártás'),
 		);
 	}
@@ -61,7 +61,7 @@ final class Shop_Content {
 			array('text' => 'Egyetlen példány a világon'),
 			array('text' => 'PLA biopolimer'),
 			array('text' => 'Napelemes műhely'),
-			array('text' => '5-10 nap alatt nálad'),
+			array('text' => '5–10 nap alatt nálad'),
 			array('text' => '2 év jótállás'),
 			array('text' => '4.9★ vásárlói élmény'),
 		);
@@ -191,16 +191,16 @@ final class Shop_Content {
 
 	public static function process_steps() {
 		return array(
-			array('number' => '1', 'title' => 'Kiválasztod és személyre szabod', 'text' => 'Név, felirat, szín, méret - vagy saját ötlet, fotó, referenciakép alapján.'),
+			array('number' => '1', 'title' => 'Kiválasztod és személyre szabod', 'text' => 'Név, felirat, szín, méret — vagy saját ötlet, fotó, referenciakép alapján.'),
 			array('number' => '2', 'title' => 'Digitális előnézetet kapsz', 'text' => 'Megmutatjuk a tervet, és addig igazítjuk, amíg jóvá nem hagyod. Csak utána nyomtatunk.'),
-			array('number' => '3', 'title' => 'Nyomtatjuk és kézbesítjük', 'text' => 'Napelemes műhelyben, PLA biopolimerből - 5-10 munkanap alatt az ajtódig.'),
+			array('number' => '3', 'title' => 'Nyomtatjuk és kézbesítjük', 'text' => 'Napelemes műhelyben, PLA biopolimerből — 5–10 munkanap alatt az ajtódig.'),
 		);
 	}
 
 	public static function quiz_cta() {
 		return array(
 			'eyebrow' => 'Nem tudod, mit válassz?',
-			'title' => 'Ajándékkereső - 4 kérdés, kész ötlet.',
+			'title' => 'Ajándékkereső — 4 kérdés, kész ötlet.',
 			'text' => 'Mondd el, kinek és milyen alkalomra keresel, és megmutatjuk, melyik darab illik hozzá a legjobban.',
 			'button_text' => 'Kitöltöm',
 			'button_url' => array('url' => '/kviz/'),
@@ -242,7 +242,7 @@ final class Shop_Content {
 	public static function custom_cta() {
 		return array(
 			'title' => 'Nem találod, amit keresel? Legyártjuk neked.',
-			'text' => 'Egyedi tervezés és gyártás - leírás vagy referenciakép alapján, ajánlatkéréstől a kész darabig.',
+			'text' => 'Egyedi tervezés és gyártás — leírás vagy referenciakép alapján, ajánlatkéréstől a kész darabig.',
 			'button_text' => 'Egyedi rendelést indítok',
 			'button_url' => array('url' => '/product/egyedi-otlet/'),
 			'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0018.png')),
@@ -261,10 +261,10 @@ final class Shop_Content {
 	public static function newsletter() {
 		return array(
 			'title' => '-10% az első rendelésedre!',
-			'text' => 'Csak új feliratkozóknak - a kuponkódot e-mailben küldjük.',
+			'text' => 'Csak új feliratkozóknak — a kuponkódot e-mailben küldjük.',
 			'placeholder' => 'E-mail címed',
 			'button_text' => 'Feliratkozom',
-			'note' => 'Havonta egyszer írunk - új termékek és szezonális kedvezmények. Bármikor leiratkozhatsz. Demo űrlap.',
+			'note' => 'Havonta egyszer írunk — új termékek és szezonális kedvezmények. Bármikor leiratkozhatsz. Demo űrlap.',
 		);
 	}
 

@@ -26,6 +26,7 @@ class Process_Steps extends Base_Widget {
 	protected function register_controls() {
 		$this->start_controls_section('content_section', array('label' => __('Tartalom', 'layero-shop-ui')));
 		$this->add_section_header_controls(array(
+			'eyebrow' => 'Folyamat',
 			'title' => 'Így készül a te darabod. <span>Az ötlettől a csomagig.</span>',
 			'button_text' => 'Hogyan működik?',
 			'button_url' => array('url' => '/gyik/'),

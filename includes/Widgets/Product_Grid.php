@@ -26,6 +26,7 @@ class Product_Grid extends Base_Widget {
 	protected function register_controls() {
 		$this->start_controls_section('content_section', array('label' => __('Szekció', 'layero-shop-ui')));
 		$this->add_section_header_controls(array(
+			'eyebrow' => 'Bestsellerek',
 			'title' => 'Népszerű termékek. <span>Amit a legtöbben visznek.</span>',
 			'button_text' => 'Mind',
 			'button_url' => array('url' => '/shop/'),

@@ -26,7 +26,7 @@ class Lab_Preview extends Base_Widget {
 		$this->add_section_header_controls(array(
 			'eyebrow' => 'Layero Lab',
 			'title' => 'Próbáld ki. <em>Most azonnal.</em>',
-			'text' => 'Írd be a neved, és nézd meg, ahogy rétegről rétegre fénybe nyomtatjuk - pontosan így születik minden Layero darab.',
+			'text' => 'Írd be a neved, és nézd meg, ahogy rétegről rétegre fénybe nyomtatjuk — pontosan így születik minden Layero darab.',
 		));
 		$this->add_control('input_placeholder', array(
 			'label' => __('Input placeholder', 'layero-shop-ui'),
