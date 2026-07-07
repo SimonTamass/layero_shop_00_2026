@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Layero Shop UI for Elementor + WooCommerce
- * Description: Elementor widgetek es WooCommerce integracio a Layero shop design felepitesehez.
- * Version: 0.1.0
+ * Description: Elementor widgetek és WooCommerce integráció a Layero shop aktuális frontendjének újraépítéséhez.
+ * Version: 0.2.0
  * Author: Layero
  * Text Domain: layero-shop-ui
  * Domain Path: /languages
@@ -15,7 +15,7 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
-define('LAYERO_SHOP_UI_VERSION', '0.1.0');
+define('LAYERO_SHOP_UI_VERSION', '0.2.0');
 define('LAYERO_SHOP_UI_FILE', __FILE__);
 define('LAYERO_SHOP_UI_PATH', plugin_dir_path(__FILE__));
 define('LAYERO_SHOP_UI_URL', plugin_dir_url(__FILE__));
@@ -23,4 +23,3 @@ define('LAYERO_SHOP_UI_URL', plugin_dir_url(__FILE__));
 require_once LAYERO_SHOP_UI_PATH . 'includes/Plugin.php';
 
 LayeroShop\Plugin::instance();
-

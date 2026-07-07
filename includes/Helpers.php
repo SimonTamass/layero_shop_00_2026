@@ -18,6 +18,7 @@ final class Helpers {
 			'shield' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>',
 			'bolt' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>',
 			'leaf' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20.5A7.5 7.5 0 0 1 3.5 13C3.5 7.5 8 3.5 20.5 3.5c0 8.5-4.5 12.5-9.5 12.5Z"/><path d="M3.5 20.5c3-4.5 6.5-7 11-8"/></svg>',
+			'tag' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.6 12.4 11 5a1.8 1.8 0 0 1 1.3-.5H18a1.5 1.5 0 0 1 1.5 1.5v5.7a1.8 1.8 0 0 1-.5 1.3l-7.4 7.4a1.8 1.8 0 0 1-2.5 0l-5-5a1.8 1.8 0 0 1 0-2.5Z"/><circle cx="15.3" cy="8.7" r="1.15" fill="currentColor" stroke="none"/></svg>',
 		);
 
 		return isset($icons[$name]) ? $icons[$name] : $icons['bolt'];
@@ -107,6 +108,47 @@ final class Helpers {
 		return ob_get_clean();
 	}
 
+	public static function demo_product_card($product) {
+		if (empty($product)) {
+			return '';
+		}
+
+		$category = Shop_Content::category_by_slug($product['category']);
+		$link = home_url('/product/' . $product['id'] . '/');
+		$category_link = home_url('/product-category/' . $product['category'] . '/');
+		$price = ! empty($product['price']) ? number_format_i18n($product['price'], 0) . ' RON' : __('Ajánlatkérés', 'layero-shop-ui');
+
+		ob_start();
+		?>
+		<article class="lyr-product-card lyr-product-card--demo">
+			<a class="lyr-product-card__media" href="<?php echo esc_url($link); ?>">
+				<?php if (! empty($product['badge'])) : ?>
+					<span class="lyr-badge"><?php echo esc_html($product['badge']); ?></span>
+				<?php endif; ?>
+				<img src="<?php echo esc_url(Shop_Content::asset_url($product['image'])); ?>" alt="<?php echo esc_attr($product['name']); ?>" loading="lazy">
+			</a>
+			<div class="lyr-product-card__body">
+				<?php if ($category) : ?>
+					<div class="lyr-product-card__cat"><a href="<?php echo esc_url($category_link); ?>"><?php echo esc_html($category['name']); ?></a></div>
+				<?php endif; ?>
+				<h3><a href="<?php echo esc_url($link); ?>"><?php echo esc_html($product['name']); ?></a></h3>
+				<p><?php echo esc_html($product['description']); ?></p>
+				<div class="lyr-product-card__price">
+					<?php if (! empty($product['regular_price']) && $product['regular_price'] > $product['price']) : ?>
+						<del><?php echo esc_html(number_format_i18n($product['regular_price'], 0) . ' RON'); ?></del>
+					<?php endif; ?>
+					<?php echo esc_html($price); ?>
+				</div>
+				<a class="lyr-btn lyr-btn--primary lyr-product-card__add" href="<?php echo esc_url($link); ?>">
+					<?php echo self::icon('cart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+					<span><?php echo esc_html__('Megnézem', 'layero-shop-ui'); ?></span>
+				</a>
+			</div>
+		</article>
+		<?php
+		return ob_get_clean();
+	}
+
 	public static function category_card($term) {
 		if (! $term || is_wp_error($term)) {
 			return '';
@@ -114,19 +156,41 @@ final class Helpers {
 
 		$thumbnail_id = get_term_meta($term->term_id, 'thumbnail_id', true);
 		$image = $thumbnail_id ? wp_get_attachment_image($thumbnail_id, 'large', false, array('loading' => 'lazy')) : '';
+		$fallback = Shop_Content::category_by_slug($term->slug);
 		$link = get_term_link($term);
 
 		ob_start();
 		?>
 		<a class="lyr-category-card" href="<?php echo esc_url($link); ?>">
 			<figure>
-				<?php echo $image ? $image : wc_placeholder_img('large'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php if ($image) : ?>
+					<?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php elseif ($fallback) : ?>
+					<img src="<?php echo esc_url(Shop_Content::asset_url($fallback['image'])); ?>" alt="<?php echo esc_attr($term->name); ?>" loading="lazy">
+				<?php else : ?>
+					<?php echo wc_placeholder_img('large'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php endif; ?>
 			</figure>
-			<span><?php echo esc_html($term->count); ?> <?php echo esc_html__('termek', 'layero-shop-ui'); ?></span>
+			<span><?php echo esc_html($term->count); ?> <?php echo esc_html__('termék', 'layero-shop-ui'); ?></span>
 			<strong><?php echo esc_html($term->name); ?></strong>
 		</a>
 		<?php
 		return ob_get_clean();
 	}
-}
 
+	public static function demo_category_card($category, $large = false) {
+		$link = home_url('/product-category/' . $category['id'] . '/');
+
+		ob_start();
+		?>
+		<a class="lyr-category-card <?php echo $large ? 'lyr-category-card--hero' : ''; ?>" href="<?php echo esc_url($link); ?>">
+			<figure>
+				<img src="<?php echo esc_url(Shop_Content::asset_url($category['image'])); ?>" alt="<?php echo esc_attr($category['name']); ?>" loading="lazy">
+			</figure>
+			<span><?php echo esc_html($category['description']); ?> · <?php echo esc_html($category['count']); ?> <?php echo esc_html__('termék', 'layero-shop-ui'); ?></span>
+			<strong><?php echo esc_html($category['name']); ?></strong>
+		</a>
+		<?php
+		return ob_get_clean();
+	}
+}

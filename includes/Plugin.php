@@ -25,6 +25,7 @@ final class Plugin {
 	}
 
 	private function includes() {
+		require_once LAYERO_SHOP_UI_PATH . 'includes/Shop_Content.php';
 		require_once LAYERO_SHOP_UI_PATH . 'includes/Helpers.php';
 		require_once LAYERO_SHOP_UI_PATH . 'includes/Assets.php';
 		require_once LAYERO_SHOP_UI_PATH . 'includes/WooCommerce.php';
@@ -41,4 +42,3 @@ final class Plugin {
 		Elementor::instance();
 	}
 }
-

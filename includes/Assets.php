@@ -53,10 +53,9 @@ final class Assets {
 				'cartUrl' => function_exists('wc_get_cart_url') ? wc_get_cart_url() : '',
 				'checkoutUrl' => function_exists('wc_get_checkout_url') ? wc_get_checkout_url() : '',
 				'i18n' => array(
-					'added' => __('Kosarba teve', 'layero-shop-ui'),
+					'added' => __('Kosárba téve', 'layero-shop-ui'),
 				),
 			)
 		);
 	}
 }
-

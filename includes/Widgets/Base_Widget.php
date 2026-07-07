@@ -20,7 +20,6 @@ abstract class Base_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_keywords() {
-		return array('layero', 'shop', 'woocommerce', 'ajandek');
+		return array('layero', 'shop', 'woocommerce', 'ajándék', '3d nyomtatás');
 	}
 }
-
