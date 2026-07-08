@@ -34,6 +34,36 @@ class Footnotes extends Base_Widget {
 			'default' => Shop_Content::footnotes(),
 		));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-footnotes' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name' => 'text_typography',
+				'label' => __('Tipográfia', 'layero-shop-ui'),
+				'selector' => '{{WRAPPER}} .lyr-footnotes p',
+			)
+		);
+		$this->add_responsive_control('spacing', array(
+			'label' => __('Felső margó', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', 'rem'),
+			'range' => array('px' => array('min' => 0, 'max' => 80)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-footnotes' => 'margin-top: {{SIZE}}{{UNIT}};',
+			),
+		));
+		$this->end_controls_section();
 	}
 
 	protected function render() {

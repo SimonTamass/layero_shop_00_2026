@@ -106,8 +106,14 @@ class Static_Page extends Base_Widget {
 
 	private function rewrite_static_urls($html) {
 		$asset_base = trailingslashit(LAYERO_SHOP_UI_URL . 'assets/demo');
-		$replacements = array(
-			'assets/' => $asset_base,
+
+		$html = preg_replace(
+			'/((?:src|href|srcset|poster|data-src)\s*=\s*["\'])assets\//i',
+			'${1}' . $asset_base,
+			$html
+		);
+
+		$page_map = array(
 			'index.html' => home_url('/'),
 			'kategoria.html' => home_url('/termekek/'),
 			'rolunk.html' => home_url('/rolunk/'),
@@ -121,6 +127,14 @@ class Static_Page extends Base_Widget {
 			'termek.html' => home_url('/termek/'),
 		);
 
-		return str_replace(array_keys($replacements), array_values($replacements), $html);
+		foreach ($page_map as $file => $url) {
+			$html = preg_replace(
+				'/(href\s*=\s*["\'])' . preg_quote($file, '/') . '/i',
+				'${1}' . esc_url($url),
+				$html
+			);
+		}
+
+		return $html;
 	}
 }

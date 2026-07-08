@@ -49,6 +49,33 @@ class Lab_Preview extends Base_Widget {
 			'default' => 'Kérem lámpaként',
 		));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('bg_color', array(
+			'label' => __('Háttérszín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-lab' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-lab' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('btn_color', array(
+			'label' => __('Gomb szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-lab .lyr-btn' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->end_controls_section();
 	}
 
 	protected function render() {

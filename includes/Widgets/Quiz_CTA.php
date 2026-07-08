@@ -32,6 +32,42 @@ class Quiz_CTA extends Base_Widget {
 		$this->add_control('button_text', array('label' => __('Gomb szöveg', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT, 'default' => $defaults['button_text']));
 		$this->add_control('button_url', array('label' => __('Link', 'layero-shop-ui'), 'type' => Controls_Manager::URL, 'default' => $defaults['button_url']));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('bg_color', array(
+			'label' => __('Háttérszín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-quiz-cta' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-quiz-cta' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('hover_bg', array(
+			'label' => __('Hover háttér', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-quiz-cta:hover' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('border_radius', array(
+			'label' => __('Lekerekítés', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px'),
+			'range' => array('px' => array('min' => 0, 'max' => 30)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-quiz-cta' => 'border-radius: {{SIZE}}{{UNIT}};',
+			),
+		));
+		$this->end_controls_section();
 	}
 
 	protected function render() {

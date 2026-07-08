@@ -49,6 +49,33 @@ class Product_Carousel extends Base_Widget {
 		$this->add_control('on_sale', array('label' => __('Csak akciós Woo termékek', 'layero-shop-ui'), 'type' => Controls_Manager::SWITCHER));
 		$this->add_control('show_excerpt', array('label' => __('Leírás mutatása', 'layero-shop-ui'), 'type' => Controls_Manager::SWITCHER));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('card_gap', array(
+			'label' => __('Kártya rés', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', 'rem'),
+			'range' => array('px' => array('min' => 0, 'max' => 60)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-carousel' => 'gap: {{SIZE}}{{UNIT}};',
+			),
+		));
+		$this->add_responsive_control('card_width', array(
+			'label' => __('Kártya szélesség', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', '%'),
+			'range' => array(
+				'px' => array('min' => 150, 'max' => 500),
+				'%' => array('min' => 20, 'max' => 100),
+			),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-carousel .lyr-product-card' => 'min-width: {{SIZE}}{{UNIT}};',
+			),
+		));
+		$this->end_controls_section();
 	}
 
 	protected function render() {

@@ -31,13 +31,52 @@ class Custom_CTA extends Base_Widget {
 		$this->add_control('button_text', array('label' => __('Gomb szöveg', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT, 'default' => $defaults['button_text']));
 		$this->add_control('button_url', array('label' => __('Gomb link', 'layero-shop-ui'), 'type' => Controls_Manager::URL, 'default' => $defaults['button_url']));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('layout', array(
+			'label' => __('Kép helye', 'layero-shop-ui'),
+			'type' => Controls_Manager::CHOOSE,
+			'default' => 'left',
+			'options' => array(
+				'left' => array('title' => __('Balra', 'layero-shop-ui'), 'icon' => 'eicon-h-align-left'),
+				'right' => array('title' => __('Jobbra', 'layero-shop-ui'), 'icon' => 'eicon-h-align-right'),
+			),
+			'toggle' => false,
+		));
+		$this->add_control('bg_color', array(
+			'label' => __('Háttérszín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-custom-cta' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-custom-cta' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_responsive_control('section_padding', array(
+			'label' => __('Belső margó', 'layero-shop-ui'),
+			'type' => Controls_Manager::DIMENSIONS,
+			'size_units' => array('px', 'rem', '%'),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-custom-cta' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+			),
+		));
+		$this->end_controls_section();
 	}
 
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 		$image = $settings['image']['url'] ?? '';
 		?>
-		<section class="lyr-custom-cta">
+		<?php $cta_layout = 'right' === ($settings['layout'] ?? 'left') ? ' lyr-custom-cta--reverse' : ''; ?>
+		<section class="lyr-custom-cta<?php echo esc_attr($cta_layout); ?>">
 			<?php if ($image) : ?>
 				<img src="<?php echo esc_url($image); ?>" alt="" loading="lazy">
 			<?php endif; ?>

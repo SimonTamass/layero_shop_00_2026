@@ -27,6 +27,7 @@ class Why_Shop extends Base_Widget {
 	protected function register_controls() {
 		$this->start_controls_section('content_section', array('label' => __('Tartalom', 'layero-shop-ui')));
 		$this->add_section_header_controls(array('title' => 'Miért a Layero Shopban vásárolj?'));
+		$this->add_heading_tag_control();
 		$repeater = new Repeater();
 		$repeater->add_control('icon', array(
 			'label' => __('Ikon', 'layero-shop-ui'),
@@ -47,6 +48,41 @@ class Why_Shop extends Base_Widget {
 			'fields' => $repeater->get_controls(),
 			'title_field' => '{{{ title }}}',
 			'default' => Shop_Content::why_shop_items(),
+		));
+		$this->end_controls_section();
+
+		$this->add_section_header_style_controls();
+
+		$this->start_controls_section('icons_style', array(
+			'label' => __('Ikonok', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_responsive_control('columns', array(
+			'label' => __('Oszlopok', 'layero-shop-ui'),
+			'type' => Controls_Manager::SELECT,
+			'default' => '4',
+			'tablet_default' => '2',
+			'mobile_default' => '1',
+			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-why-shop__grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+			),
+		));
+		$this->add_control('icon_color', array(
+			'label' => __('Ikon szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-why-shop__grid svg' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_responsive_control('gap', array(
+			'label' => __('Rés', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', 'rem'),
+			'range' => array('px' => array('min' => 0, 'max' => 60)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-why-shop__grid' => 'gap: {{SIZE}}{{UNIT}};',
+			),
 		));
 		$this->end_controls_section();
 	}

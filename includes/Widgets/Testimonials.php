@@ -29,6 +29,7 @@ class Testimonials extends Base_Widget {
 		$this->add_section_header_controls(array(
 			'title' => 'Vásárlóink mondták. <span>1000+ elégedett vásárló.</span>',
 		));
+		$this->add_heading_tag_control();
 		$repeater = new Repeater();
 		$repeater->add_control('stars', array('label' => __('Csillag', 'layero-shop-ui'), 'type' => Controls_Manager::NUMBER, 'default' => 5, 'min' => 1, 'max' => 5));
 		$repeater->add_control('quote', array('label' => __('Vélemény', 'layero-shop-ui'), 'type' => Controls_Manager::TEXTAREA));
@@ -39,6 +40,48 @@ class Testimonials extends Base_Widget {
 			'fields' => $repeater->get_controls(),
 			'title_field' => '{{{ name }}}',
 			'default' => Shop_Content::testimonials(),
+		));
+		$this->end_controls_section();
+
+		$this->add_section_header_style_controls();
+
+		$this->start_controls_section('cards_style', array(
+			'label' => __('Kártyák', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_responsive_control('columns', array(
+			'label' => __('Oszlopok', 'layero-shop-ui'),
+			'type' => Controls_Manager::SELECT,
+			'default' => '3',
+			'tablet_default' => '2',
+			'mobile_default' => '1',
+			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-testimonials__grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+			),
+		));
+		$this->add_control('star_color', array(
+			'label' => __('Csillag szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-testimonial__stars' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('card_bg', array(
+			'label' => __('Kártya háttér', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-testimonial' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('card_radius', array(
+			'label' => __('Kártya lekerekítés', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px'),
+			'range' => array('px' => array('min' => 0, 'max' => 30)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-testimonial' => 'border-radius: {{SIZE}}{{UNIT}};',
+			),
 		));
 		$this->end_controls_section();
 	}

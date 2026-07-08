@@ -208,7 +208,7 @@ final class Helpers {
 		$fallback = Shop_Content::category_by_slug($term->slug);
 		$link = get_term_link($term);
 		$link = is_wp_error($link) ? '#' : $link;
-		$description = $term->description ? $term->description : ($fallback['description'] ?? '');
+		$description = $term->description ? $term->description : ($fallback ? $fallback['description'] : '');
 
 		ob_start();
 		?>

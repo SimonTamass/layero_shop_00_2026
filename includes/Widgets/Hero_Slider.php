@@ -93,12 +93,68 @@ class Hero_Slider extends Base_Widget {
 			'step' => 500,
 		));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_responsive_control('min_height', array(
+			'label' => __('Minimum magasság', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', 'vh'),
+			'range' => array(
+				'px' => array('min' => 200, 'max' => 1000),
+				'vh' => array('min' => 20, 'max' => 100),
+			),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-hero' => 'min-height: {{SIZE}}{{UNIT}};',
+			),
+		));
+		$this->add_control('overlay_color', array(
+			'label' => __('Overlay szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-hero__slide::after' => 'background: {{VALUE}};',
+			),
+		));
+		$this->add_responsive_control('content_align', array(
+			'label' => __('Tartalom igazítás', 'layero-shop-ui'),
+			'type' => Controls_Manager::CHOOSE,
+			'options' => array(
+				'left' => array('title' => __('Balra', 'layero-shop-ui'), 'icon' => 'eicon-text-align-left'),
+				'center' => array('title' => __('Középre', 'layero-shop-ui'), 'icon' => 'eicon-text-align-center'),
+				'right' => array('title' => __('Jobbra', 'layero-shop-ui'), 'icon' => 'eicon-text-align-right'),
+			),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-hero__copy' => 'text-align: {{VALUE}};',
+			),
+		));
+		$this->add_control('title_tag', array(
+			'label' => __('Cím HTML tag', 'layero-shop-ui'),
+			'type' => Controls_Manager::SELECT,
+			'default' => 'h1',
+			'options' => array('h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3'),
+			'separator' => 'before',
+		));
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name' => 'title_typography',
+				'label' => __('Cím tipográfia', 'layero-shop-ui'),
+				'selector' => '{{WRAPPER}} .lyr-hero__copy h1, {{WRAPPER}} .lyr-hero__copy h2, {{WRAPPER}} .lyr-hero__copy h3',
+			)
+		);
+		$this->end_controls_section();
 	}
 
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 		$slides = ! empty($settings['slides']) ? $settings['slides'] : Shop_Content::hero_slides();
 		$speed = isset($settings['autoplay_speed']) ? absint($settings['autoplay_speed']) : 6500;
+		$title_tag = $settings['title_tag'] ?? 'h1';
+		if (! in_array($title_tag, array('h1', 'h2', 'h3'), true)) {
+			$title_tag = 'h1';
+		}
 		?>
 		<section class="lyr-hero" data-layero-slider data-layero-speed="<?php echo esc_attr($speed); ?>" aria-label="<?php esc_attr_e('Kiemelt ajánlatok', 'layero-shop-ui'); ?>">
 			<div class="lyr-hero__slides">
@@ -112,7 +168,7 @@ class Hero_Slider extends Base_Widget {
 							<?php if (! empty($slide['eyebrow'])) : ?>
 								<span><?php echo esc_html($slide['eyebrow']); ?></span>
 							<?php endif; ?>
-							<h1><?php echo wp_kses($slide['title'] ?? '', array('em' => array(), 'br' => array())); ?></h1>
+							<<?php echo esc_html($title_tag); ?>><?php echo wp_kses($slide['title'] ?? '', array('em' => array(), 'br' => array())); ?></<?php echo esc_html($title_tag); ?>>
 							<?php if (! empty($slide['text'])) : ?>
 								<p><?php echo esc_html($slide['text']); ?></p>
 							<?php endif; ?>

@@ -31,6 +31,44 @@ class Newsletter_Banner extends Base_Widget {
 		$this->add_control('placeholder', array('label' => __('Placeholder', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT, 'default' => $defaults['placeholder']));
 		$this->add_control('button_text', array('label' => __('Gomb szöveg', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT, 'default' => $defaults['button_text']));
 		$this->add_control('note', array('label' => __('Apróbetű', 'layero-shop-ui'), 'type' => Controls_Manager::TEXTAREA, 'default' => $defaults['note']));
+		$this->add_control('discount_value', array(
+			'label' => __('Kedvezmény szám', 'layero-shop-ui'),
+			'type' => Controls_Manager::TEXT,
+			'default' => '-10',
+			'separator' => 'before',
+		));
+		$this->add_control('show_ticket', array(
+			'label' => __('Kedvezmény jelvény mutatása', 'layero-shop-ui'),
+			'type' => Controls_Manager::SWITCHER,
+			'default' => 'yes',
+		));
+		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('bg_color', array(
+			'label' => __('Háttérszín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-newsletter' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-newsletter' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('btn_bg_color', array(
+			'label' => __('Gomb háttér', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-newsletter .lyr-btn' => 'background-color: {{VALUE}};',
+			),
+		));
 		$this->end_controls_section();
 	}
 
@@ -48,7 +86,9 @@ class Newsletter_Banner extends Base_Widget {
 				</form>
 				<small data-layero-newsletter-note><?php echo esc_html($settings['note'] ?? ''); ?></small>
 			</div>
-			<div class="lyr-newsletter__ticket" aria-hidden="true"><b>%</b><span>-10</span></div>
+			<?php if ('yes' === ($settings['show_ticket'] ?? 'yes')) : ?>
+				<div class="lyr-newsletter__ticket" aria-hidden="true"><b>%</b><span><?php echo esc_html($settings['discount_value'] ?? '-10'); ?></span></div>
+			<?php endif; ?>
 		</section>
 		<?php
 	}

@@ -31,6 +31,7 @@ class Category_Bento extends Base_Widget {
 			'button_text' => 'Összes termék',
 			'button_url' => array('url' => '/shop/'),
 		));
+		$this->add_heading_tag_control();
 		$this->add_control('slugs', array(
 			'label' => __('Kategória slugok', 'layero-shop-ui'),
 			'type' => Controls_Manager::TEXT,
@@ -46,6 +47,50 @@ class Category_Bento extends Base_Widget {
 			'label' => __('Termékszám mutatása', 'layero-shop-ui'),
 			'type' => Controls_Manager::SWITCHER,
 			'default' => 'yes',
+		));
+		$this->end_controls_section();
+
+		$this->add_section_header_style_controls();
+
+		$this->start_controls_section('grid_style', array(
+			'label' => __('Rács', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_responsive_control('columns', array(
+			'label' => __('Oszlopok', 'layero-shop-ui'),
+			'type' => Controls_Manager::SELECT,
+			'default' => '3',
+			'tablet_default' => '2',
+			'mobile_default' => '1',
+			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-category-grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+			),
+		));
+		$this->add_responsive_control('gap', array(
+			'label' => __('Rés', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', 'rem'),
+			'range' => array('px' => array('min' => 0, 'max' => 60)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-category-grid' => 'gap: {{SIZE}}{{UNIT}};',
+			),
+		));
+		$this->add_control('card_radius', array(
+			'label' => __('Kártya lekerekítés', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px'),
+			'range' => array('px' => array('min' => 0, 'max' => 30)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-category-card' => 'border-radius: {{SIZE}}{{UNIT}};',
+			),
+		));
+		$this->add_control('overlay_color', array(
+			'label' => __('Overlay szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-category-card::after' => 'background: {{VALUE}};',
+			),
 		));
 		$this->end_controls_section();
 	}
@@ -65,6 +110,15 @@ class Category_Bento extends Base_Widget {
 
 		$terms = taxonomy_exists('product_cat') ? get_terms($args) : array();
 		$has_terms = ! empty($terms) && ! is_wp_error($terms);
+
+		if ($has_terms && ! empty($slugs)) {
+			$slug_order = array_flip($slugs);
+			usort($terms, function ($a, $b) use ($slug_order) {
+				$pos_a = isset($slug_order[$a->slug]) ? $slug_order[$a->slug] : PHP_INT_MAX;
+				$pos_b = isset($slug_order[$b->slug]) ? $slug_order[$b->slug] : PHP_INT_MAX;
+				return $pos_a - $pos_b;
+			});
+		}
 		?>
 		<section class="lyr-section lyr-categories" id="kategoriak">
 			<?php $this->render_section_header($settings); ?>

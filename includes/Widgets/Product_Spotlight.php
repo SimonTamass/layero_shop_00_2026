@@ -47,6 +47,44 @@ class Product_Spotlight extends Base_Widget {
 			'default' => 'Megnézem a terméket',
 		));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('layout', array(
+			'label' => __('Kép helye', 'layero-shop-ui'),
+			'type' => Controls_Manager::CHOOSE,
+			'default' => 'left',
+			'options' => array(
+				'left' => array('title' => __('Balra', 'layero-shop-ui'), 'icon' => 'eicon-h-align-left'),
+				'right' => array('title' => __('Jobbra', 'layero-shop-ui'), 'icon' => 'eicon-h-align-right'),
+			),
+			'toggle' => false,
+		));
+		$this->add_control('bg_color', array(
+			'label' => __('Háttérszín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-spotlight' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-spotlight' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name' => 'title_typography',
+				'label' => __('Cím tipográfia', 'layero-shop-ui'),
+				'selector' => '{{WRAPPER}} .lyr-spotlight h2',
+			)
+		);
+		$this->end_controls_section();
 	}
 
 	protected function render() {
@@ -61,7 +99,8 @@ class Product_Spotlight extends Base_Widget {
 			$product = ! empty($products) ? $products[0] : null;
 		}
 		?>
-		<section class="lyr-spotlight">
+		<?php $layout_class = 'right' === ($settings['layout'] ?? 'left') ? ' lyr-spotlight--reverse' : ''; ?>
+		<section class="lyr-spotlight<?php echo esc_attr($layout_class); ?>">
 			<?php if ($product) : ?>
 				<figure><?php echo Helpers::product_image($product, 'large'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></figure>
 				<div class="lyr-spotlight__copy">

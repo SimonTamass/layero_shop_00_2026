@@ -57,6 +57,41 @@ class Trust_Bar extends Base_Widget {
 			),
 		));
 		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('bg_color', array(
+			'label' => __('Háttérszín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-trust-bar' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-trust-bar' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('icon_color', array(
+			'label' => __('Ikon szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-trust-bar svg' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name' => 'title_typography',
+				'label' => __('Cím tipográfia', 'layero-shop-ui'),
+				'selector' => '{{WRAPPER}} .lyr-trust-bar strong',
+			)
+		);
+		$this->end_controls_section();
 	}
 
 	protected function render() {

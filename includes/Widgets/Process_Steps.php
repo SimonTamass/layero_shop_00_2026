@@ -31,6 +31,7 @@ class Process_Steps extends Base_Widget {
 			'button_text' => 'Hogyan működik?',
 			'button_url' => array('url' => '/gyik/'),
 		));
+		$this->add_heading_tag_control();
 
 		$repeater = new Repeater();
 		$repeater->add_control('number', array('label' => __('Sorszám', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT, 'default' => '1'));
@@ -41,6 +42,39 @@ class Process_Steps extends Base_Widget {
 			'fields' => $repeater->get_controls(),
 			'title_field' => '{{{ number }}} - {{{ title }}}',
 			'default' => Shop_Content::process_steps(),
+		));
+		$this->end_controls_section();
+
+		$this->add_section_header_style_controls();
+
+		$this->start_controls_section('steps_style', array(
+			'label' => __('Lépések', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_responsive_control('columns', array(
+			'label' => __('Oszlopok', 'layero-shop-ui'),
+			'type' => Controls_Manager::SELECT,
+			'default' => '4',
+			'tablet_default' => '2',
+			'mobile_default' => '1',
+			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-process__grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+			),
+		));
+		$this->add_control('accent_color', array(
+			'label' => __('Sorszám szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-process__num' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_control('ghost_color', array(
+			'label' => __('Háttérszám szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-process__ghost' => 'color: {{VALUE}};',
+			),
 		));
 		$this->end_controls_section();
 	}

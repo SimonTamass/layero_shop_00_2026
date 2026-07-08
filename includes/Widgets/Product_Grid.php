@@ -31,6 +31,7 @@ class Product_Grid extends Base_Widget {
 			'button_text' => 'Mind',
 			'button_url' => array('url' => '/shop/'),
 		));
+		$this->add_heading_tag_control();
 		$this->end_controls_section();
 
 		$this->start_controls_section('query_section', array('label' => __('Termékek', 'layero-shop-ui')));
@@ -57,11 +58,16 @@ class Product_Grid extends Base_Widget {
 			'min' => 1,
 			'max' => 24,
 		));
-		$this->add_control('columns', array(
-			'label' => __('Oszlopok desktopon', 'layero-shop-ui'),
+		$this->add_responsive_control('columns', array(
+			'label' => __('Oszlopok', 'layero-shop-ui'),
 			'type' => Controls_Manager::SELECT,
 			'default' => '4',
-			'options' => array('2' => '2', '3' => '3', '4' => '4'),
+			'tablet_default' => '2',
+			'mobile_default' => '1',
+			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-product-grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+			),
 		));
 		$this->add_control('featured', array(
 			'label' => __('Csak kiemelt WooCommerce termékek', 'layero-shop-ui'),
@@ -75,6 +81,23 @@ class Product_Grid extends Base_Widget {
 			'label' => __('Leírás mutatása', 'layero-shop-ui'),
 			'type' => Controls_Manager::SWITCHER,
 			'default' => 'yes',
+		));
+		$this->end_controls_section();
+
+		$this->add_section_header_style_controls();
+
+		$this->start_controls_section('grid_style', array(
+			'label' => __('Rács', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_responsive_control('gap', array(
+			'label' => __('Rés', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', 'rem'),
+			'range' => array('px' => array('min' => 0, 'max' => 60)),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-product-grid' => 'gap: {{SIZE}}{{UNIT}};',
+			),
 		));
 		$this->end_controls_section();
 	}

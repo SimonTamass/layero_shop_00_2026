@@ -29,6 +29,7 @@ class Why_Layero extends Base_Widget {
 		$this->add_section_header_controls(array(
 			'title' => 'Miért a Layero? <span>Nem egy újabb tárgy a polcról.</span>',
 		));
+		$this->add_heading_tag_control();
 		$this->add_control('lead', array(
 			'label' => __('Bevezető', 'layero-shop-ui'),
 			'type' => Controls_Manager::TEXTAREA,
@@ -47,6 +48,36 @@ class Why_Layero extends Base_Widget {
 		$this->add_control('footer_text', array('label' => __('Alsó szöveg', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT, 'default' => 'Nem tudod, melyik illik hozzá a legjobban?'));
 		$this->add_control('footer_button_text', array('label' => __('Alsó gomb', 'layero-shop-ui'), 'type' => Controls_Manager::TEXT, 'default' => 'Ajándékkereső kvíz'));
 		$this->add_control('footer_button_url', array('label' => __('Alsó gomb link', 'layero-shop-ui'), 'type' => Controls_Manager::URL, 'default' => array('url' => '/kviz/')));
+		$this->end_controls_section();
+
+		$this->add_section_header_style_controls();
+
+		$this->start_controls_section('table_style', array(
+			'label' => __('Táblázat', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('accent_color', array(
+			'label' => __('Layero oszlop szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-why__row .is-good' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .lyr-why__row .is-good svg' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('muted_color', array(
+			'label' => __('Hagyományos oszlop szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-why__row .is-muted' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('row_border_color', array(
+			'label' => __('Sor szegély', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-why__row' => 'border-color: {{VALUE}};',
+			),
+		));
 		$this->end_controls_section();
 	}
 

@@ -44,6 +44,48 @@ class Value_Marquee extends Base_Widget {
 			'min' => 12,
 			'max' => 90,
 		));
+		$this->add_control('separator', array(
+			'label' => __('Elválasztó karakter', 'layero-shop-ui'),
+			'type' => Controls_Manager::TEXT,
+			'default' => '✦',
+		));
+		$this->add_control('pause_on_hover', array(
+			'label' => __('Megállítás hover-re', 'layero-shop-ui'),
+			'type' => Controls_Manager::SWITCHER,
+			'default' => 'yes',
+		));
+		$this->end_controls_section();
+
+		$this->start_controls_section('style_section', array(
+			'label' => __('Megjelenés', 'layero-shop-ui'),
+			'tab' => Controls_Manager::TAB_STYLE,
+		));
+		$this->add_control('text_color', array(
+			'label' => __('Szöveg szín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-marquee' => 'color: {{VALUE}};',
+			),
+		));
+		$this->add_control('bg_color', array(
+			'label' => __('Háttérszín', 'layero-shop-ui'),
+			'type' => Controls_Manager::COLOR,
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-marquee' => 'background-color: {{VALUE}};',
+			),
+		));
+		$this->add_responsive_control('font_size', array(
+			'label' => __('Betűméret', 'layero-shop-ui'),
+			'type' => Controls_Manager::SLIDER,
+			'size_units' => array('px', 'rem'),
+			'range' => array(
+				'px' => array('min' => 10, 'max' => 48),
+				'rem' => array('min' => 0.5, 'max' => 3),
+			),
+			'selectors' => array(
+				'{{WRAPPER}} .lyr-marquee' => 'font-size: {{SIZE}}{{UNIT}};',
+			),
+		));
 		$this->end_controls_section();
 	}
 
@@ -51,12 +93,18 @@ class Value_Marquee extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$items = ! empty($settings['items']) ? $settings['items'] : Shop_Content::marquee_items();
 		$speed = isset($settings['speed']) ? absint($settings['speed']) : 34;
+		$separator = $settings['separator'] ?? '✦';
+		$pause = 'yes' === ($settings['pause_on_hover'] ?? 'yes');
+		$classes = 'lyr-marquee';
+		if ($pause) {
+			$classes .= ' lyr-marquee--pause';
+		}
 		?>
-		<div class="lyr-marquee" style="<?php echo esc_attr('--lyr-marquee-speed:' . $speed . 's'); ?>">
+		<div class="<?php echo esc_attr($classes); ?>" style="<?php echo esc_attr('--lyr-marquee-speed:' . $speed . 's'); ?>">
 			<?php for ($copy = 0; $copy < 2; $copy++) : ?>
 				<div class="lyr-marquee__track" <?php echo $copy ? 'aria-hidden="true"' : ''; ?>>
 					<?php foreach ($items as $item) : ?>
-						<span><?php echo esc_html($item['text'] ?? ''); ?></span><i aria-hidden="true">✦</i>
+						<span><?php echo esc_html($item['text'] ?? ''); ?></span><i aria-hidden="true"><?php echo esc_html($separator); ?></i>
 					<?php endforeach; ?>
 				</div>
 			<?php endfor; ?>

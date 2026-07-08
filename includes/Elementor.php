@@ -33,10 +33,6 @@ final class Elementor {
 	}
 
 	public function register_widgets($widgets_manager) {
-		if (! did_action('elementor/loaded')) {
-			return;
-		}
-
 		$widgets = array(
 			'Hero_Slider',
 			'Trust_Bar',
