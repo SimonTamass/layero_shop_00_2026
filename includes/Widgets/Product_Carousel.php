@@ -60,7 +60,7 @@ class Product_Carousel extends Base_Widget {
 			'size_units' => array('px', 'rem'),
 			'range' => array('px' => array('min' => 0, 'max' => 60)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-carousel' => 'gap: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-carousel' => 'gap: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->add_responsive_control('card_width', array(
@@ -72,7 +72,7 @@ class Product_Carousel extends Base_Widget {
 				'%' => array('min' => 20, 'max' => 100),
 			),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-carousel .lyr-product-card' => 'min-width: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-carousel .sh-prod-card' => 'min-width: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -93,19 +93,20 @@ class Product_Carousel extends Base_Widget {
 		$use_demo = ! Helpers::is_woo_active() || empty($products);
 		$card_args = array('show_excerpt' => 'yes' === ($settings['show_excerpt'] ?? ''));
 		?>
-		<section class="lyr-section lyr-product-carousel">
-			<div class="lyr-section__head lyr-section__head--with-nav">
+		<section class="sh-band sh-band--tight lyr-product-carousel">
+			<div class="shop-wrap">
+			<div class="lyr-section__head sh-section-hd lyr-section__head--with-nav">
 				<div>
-					<?php if (! empty($settings['eyebrow'])) : ?><span class="lyr-eyebrow"><?php echo esc_html($settings['eyebrow']); ?></span><?php endif; ?>
-					<?php if (! empty($settings['title'])) : ?><h2><?php echo wp_kses($settings['title'], array('span' => array(), 'em' => array())); ?></h2><?php endif; ?>
+					<?php if (! empty($settings['eyebrow'])) : ?><span class="lyr-eyebrow sh-label sh-kicker"><?php echo esc_html($settings['eyebrow']); ?></span><?php endif; ?>
+					<?php if (! empty($settings['title'])) : ?><h2 class="sh-h2"><?php echo wp_kses($settings['title'], array('span' => array(), 'em' => array())); ?></h2><?php endif; ?>
 					<?php if (! empty($settings['text'])) : ?><p><?php echo esc_html($settings['text']); ?></p><?php endif; ?>
 				</div>
-				<div class="lyr-carousel-nav">
-					<button type="button" data-layero-carousel-prev aria-label="<?php esc_attr_e('Balra', 'layero-shop-ui'); ?>">&lsaquo;</button>
-					<button type="button" data-layero-carousel-next aria-label="<?php esc_attr_e('Jobbra', 'layero-shop-ui'); ?>">&rsaquo;</button>
+				<div class="sh-carousel-head lyr-carousel-nav">
+					<button class="sh-carousel-btn" type="button" data-layero-carousel-prev data-car-prev aria-label="<?php esc_attr_e('Balra', 'layero-shop-ui'); ?>">&lsaquo;</button>
+					<button class="sh-carousel-btn" type="button" data-layero-carousel-next data-car-next aria-label="<?php esc_attr_e('Jobbra', 'layero-shop-ui'); ?>">&rsaquo;</button>
 				</div>
 			</div>
-			<div class="lyr-carousel" data-layero-carousel>
+			<div class="sh-carousel lyr-carousel" data-layero-carousel>
 				<?php if ($use_demo) : ?>
 					<?php foreach (Shop_Content::demo_products($limit, $settings['category'] ?? '', $collection) as $product) : ?>
 						<?php echo Helpers::demo_product_card($product, $card_args); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -115,6 +116,7 @@ class Product_Carousel extends Base_Widget {
 						<?php echo Helpers::product_card($product, $card_args); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					<?php endforeach; ?>
 				<?php endif; ?>
+			</div>
 			</div>
 		</section>
 		<?php

@@ -66,21 +66,21 @@ class Trust_Bar extends Base_Widget {
 			'label' => __('Háttérszín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-trust-bar' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-infobar' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_control('text_color', array(
 			'label' => __('Szöveg szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-trust-bar' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-infobar' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_control('icon_color', array(
 			'label' => __('Ikon szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-trust-bar svg' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-infobar svg' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_group_control(
@@ -88,7 +88,7 @@ class Trust_Bar extends Base_Widget {
 			array(
 				'name' => 'title_typography',
 				'label' => __('Cím tipográfia', 'layero-shop-ui'),
-				'selector' => '{{WRAPPER}} .lyr-trust-bar strong',
+				'selector' => '{{WRAPPER}} .sh-infobar strong',
 			)
 		);
 		$this->end_controls_section();
@@ -98,7 +98,7 @@ class Trust_Bar extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$items = ! empty($settings['items']) ? $settings['items'] : Shop_Content::trust_items();
 		?>
-		<div class="lyr-trust-bar lyr-trust-bar--<?php echo esc_attr($settings['style'] ?? 'light'); ?>">
+		<div class="sh-infobar">
 			<?php foreach ($items as $item) : ?>
 				<article>
 					<?php echo Helpers::icon($item['icon'] ?? 'check'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

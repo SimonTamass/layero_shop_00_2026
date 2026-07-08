@@ -66,7 +66,7 @@ class Product_Grid extends Base_Widget {
 			'mobile_default' => '1',
 			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-product-grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+				'{{WRAPPER}} .sh-prod-grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
 			),
 		));
 		$this->add_control('featured', array(
@@ -96,7 +96,7 @@ class Product_Grid extends Base_Widget {
 			'size_units' => array('px', 'rem'),
 			'range' => array('px' => array('min' => 0, 'max' => 60)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-product-grid' => 'gap: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-prod-grid' => 'gap: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -140,11 +140,13 @@ class Product_Grid extends Base_Widget {
 		$card_args = array('show_excerpt' => 'yes' === ($settings['show_excerpt'] ?? 'yes'));
 		$demo_products = $use_demo ? $this->demo_products($limit, $active_category, $collection, $search, $sort) : array();
 		$grid_attrs = $is_favorites ? ' data-layero-favorites-grid' : '';
-		$section_classes = 'lyr-section lyr-products';
+		$section_classes = 'sh-band sh-band--tight lyr-products';
+		$section_classes .= (! $is_listing && ! $is_favorites) ? ' sh-band--gray' : '';
 		$section_classes .= $is_listing ? ' lyr-products--listing' : '';
 		$section_classes .= $is_favorites ? ' lyr-products--favorites' : '';
 		?>
 		<section class="<?php echo esc_attr($section_classes); ?>">
+			<div class="shop-wrap">
 			<?php $this->render_section_header($settings); ?>
 			<?php if ($is_listing) : ?>
 				<?php $this->render_listing_toolbar($active_category, $search, $sort); ?>
@@ -156,7 +158,7 @@ class Product_Grid extends Base_Widget {
 					<a class="lyr-btn lyr-btn--primary" href="<?php echo esc_url(Helpers::products_url()); ?>"><?php esc_html_e('Termékek böngészése', 'layero-shop-ui'); ?></a>
 				</div>
 			<?php endif; ?>
-			<div class="lyr-product-grid lyr-product-grid--cols-<?php echo esc_attr($columns); ?>"<?php echo $grid_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<div class="sh-prod-grid lyr-product-grid lyr-product-grid--cols-<?php echo esc_attr($columns); ?>"<?php echo $grid_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 				<?php if ($use_demo) : ?>
 					<?php foreach ($demo_products as $product) : ?>
 						<?php echo Helpers::demo_product_card($product, $card_args); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -174,6 +176,7 @@ class Product_Grid extends Base_Widget {
 					<a class="lyr-btn lyr-btn--primary" href="<?php echo esc_url(Helpers::products_url()); ?>"><?php esc_html_e('Összes termék', 'layero-shop-ui'); ?></a>
 				</div>
 			<?php endif; ?>
+			</div>
 		</section>
 		<?php
 	}

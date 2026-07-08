@@ -50,14 +50,14 @@ class Custom_CTA extends Base_Widget {
 			'label' => __('Háttérszín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-custom-cta' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-cta-band' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_control('text_color', array(
 			'label' => __('Szöveg szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-custom-cta' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-cta-band' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_responsive_control('section_padding', array(
@@ -65,7 +65,7 @@ class Custom_CTA extends Base_Widget {
 			'type' => Controls_Manager::DIMENSIONS,
 			'size_units' => array('px', 'rem', '%'),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-custom-cta' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				'{{WRAPPER}} .sh-cta-band' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -76,15 +76,15 @@ class Custom_CTA extends Base_Widget {
 		$image = $settings['image']['url'] ?? '';
 		?>
 		<?php $cta_layout = 'right' === ($settings['layout'] ?? 'left') ? ' lyr-custom-cta--reverse' : ''; ?>
-		<section class="lyr-custom-cta<?php echo esc_attr($cta_layout); ?>">
+		<section class="sh-cta-band lyr-custom-cta<?php echo esc_attr($cta_layout); ?>">
 			<?php if ($image) : ?>
 				<img src="<?php echo esc_url($image); ?>" alt="" loading="lazy">
 			<?php endif; ?>
-			<div class="lyr-custom-cta__copy">
+			<div class="sh-cta-band__copy lyr-custom-cta__copy">
 				<h2><?php echo esc_html($settings['title'] ?? ''); ?></h2>
 				<p><?php echo esc_html($settings['text'] ?? ''); ?></p>
 				<?php if (! empty($settings['button_text'])) : ?>
-					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url($this->get_link_url($settings['button_url'] ?? array())); ?>"><?php echo esc_html($settings['button_text']); ?></a>
+					<a class="sh-btn sh-btn--white lyr-btn lyr-btn--white" href="<?php echo esc_url($this->get_link_url($settings['button_url'] ?? array())); ?>"><?php echo esc_html($settings['button_text']); ?></a>
 				<?php endif; ?>
 			</div>
 		</section>

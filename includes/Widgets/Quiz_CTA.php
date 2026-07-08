@@ -41,21 +41,21 @@ class Quiz_CTA extends Base_Widget {
 			'label' => __('Háttérszín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-quiz-cta' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-quizcta' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_control('text_color', array(
 			'label' => __('Szöveg szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-quiz-cta' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-quizcta' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_control('hover_bg', array(
 			'label' => __('Hover háttér', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-quiz-cta:hover' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-quizcta:hover' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_control('border_radius', array(
@@ -64,7 +64,7 @@ class Quiz_CTA extends Base_Widget {
 			'size_units' => array('px'),
 			'range' => array('px' => array('min' => 0, 'max' => 30)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-quiz-cta' => 'border-radius: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-quizcta' => 'border-radius: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -78,15 +78,19 @@ class Quiz_CTA extends Base_Widget {
 			return;
 		}
 		?>
-		<a class="lyr-quiz-cta" href="<?php echo esc_url($this->get_link_url($settings['button_url'] ?? array(), '/kviz/')); ?>">
-			<span class="lyr-quiz-cta__icon"><?php echo Helpers::icon('question'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-			<span class="lyr-quiz-cta__copy">
-				<span><?php echo esc_html($settings['eyebrow'] ?? ''); ?></span>
-				<strong><?php echo esc_html($settings['title'] ?? ''); ?></strong>
-				<small><?php echo esc_html($settings['text'] ?? ''); ?></small>
-			</span>
-			<b><?php echo esc_html($settings['button_text'] ?? __('Kitöltöm', 'layero-shop-ui')); ?> &rsaquo;</b>
-		</a>
+		<section class="sh-band sh-band--tight">
+			<div class="shop-wrap">
+				<a class="sh-quizcta lyr-quiz-cta" href="<?php echo esc_url($this->get_link_url($settings['button_url'] ?? array(), '/kviz/')); ?>">
+					<span class="sh-quizcta__ico lyr-quiz-cta__icon"><?php echo Helpers::icon('question'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<span class="sh-quizcta__copy lyr-quiz-cta__copy">
+						<span class="sh-quizcta__eyebrow"><?php echo esc_html($settings['eyebrow'] ?? ''); ?></span>
+						<h2><?php echo esc_html($settings['title'] ?? ''); ?></h2>
+						<p><?php echo esc_html($settings['text'] ?? ''); ?></p>
+					</span>
+					<span class="sh-quizcta__btn"><?php echo esc_html($settings['button_text'] ?? __('Kitöltöm', 'layero-shop-ui')); ?> &rsaquo;</span>
+				</a>
+			</div>
+		</section>
 		<?php
 	}
 

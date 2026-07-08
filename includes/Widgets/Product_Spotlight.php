@@ -100,30 +100,34 @@ class Product_Spotlight extends Base_Widget {
 		}
 		?>
 		<?php $layout_class = 'right' === ($settings['layout'] ?? 'left') ? ' lyr-spotlight--reverse' : ''; ?>
-		<section class="lyr-spotlight<?php echo esc_attr($layout_class); ?>">
+		<section class="sh-band sh-band--dark">
+			<div class="shop-wrap">
+			<div class="sh-spotlight lyr-spotlight<?php echo esc_attr($layout_class); ?>">
 			<?php if ($product) : ?>
-				<figure><?php echo Helpers::product_image($product, 'large'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></figure>
-				<div class="lyr-spotlight__copy">
-					<span><?php echo esc_html($settings['eyebrow'] ?? 'A hónap terméke'); ?></span>
+				<div class="sh-spotlight__copy lyr-spotlight__copy">
+					<span class="sh-spotlight__eyebrow"><?php echo esc_html($settings['eyebrow'] ?? 'A hónap terméke'); ?></span>
 					<h2><?php echo esc_html($product->get_name()); ?></h2>
 					<p><?php echo esc_html(wp_trim_words(wp_strip_all_tags($product->get_short_description() ?: $product->get_description()), 34)); ?></p>
-					<div class="lyr-spotlight__price"><?php echo wp_kses_post($product->get_price_html()); ?></div>
-					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(get_permalink($product->get_id())); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
+					<div class="sh-spotlight__price lyr-spotlight__price"><?php echo wp_kses_post($product->get_price_html()); ?></div>
+					<a class="sh-btn sh-btn--white lyr-btn lyr-btn--white" href="<?php echo esc_url(get_permalink($product->get_id())); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
 				</div>
+				<figure class="sh-spotlight__media"><?php echo Helpers::product_image($product, 'large'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></figure>
 			<?php else : ?>
 				<?php $demo = Shop_Content::spotlight_product($settings['demo_product_id'] ?? ''); ?>
-				<figure><img src="<?php echo esc_url(Shop_Content::asset_url($demo['image'])); ?>" alt="<?php echo esc_attr($demo['name']); ?>" loading="lazy"></figure>
-				<div class="lyr-spotlight__copy">
-					<span><?php echo esc_html($settings['eyebrow'] ?? 'A hónap terméke'); ?></span>
+				<div class="sh-spotlight__copy lyr-spotlight__copy">
+					<span class="sh-spotlight__eyebrow"><?php echo esc_html($settings['eyebrow'] ?? 'A hónap terméke'); ?></span>
 					<h2><?php echo esc_html($demo['name']); ?></h2>
 					<p><?php echo esc_html($demo['description']); ?></p>
-					<div class="lyr-spotlight__price">
+					<div class="sh-spotlight__price lyr-spotlight__price">
 						<?php echo $demo['price'] ? esc_html(number_format_i18n($demo['price'], 0) . ' RON') : esc_html__('Ajánlatkérés', 'layero-shop-ui'); ?>
 						<small><?php echo esc_html__('-tól, egyedi gyártással', 'layero-shop-ui'); ?></small>
 					</div>
-					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(Helpers::product_url($demo['id'])); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
+					<a class="sh-btn sh-btn--white lyr-btn lyr-btn--white" href="<?php echo esc_url(Helpers::product_url($demo['id'])); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
 				</div>
+				<figure class="sh-spotlight__media"><img src="<?php echo esc_url(Shop_Content::asset_url($demo['image'])); ?>" alt="<?php echo esc_attr($demo['name']); ?>" loading="lazy"></figure>
 			<?php endif; ?>
+			</div>
+			</div>
 		</section>
 		<?php
 	}

@@ -85,31 +85,33 @@ class Why_Layero extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$rows = ! empty($settings['rows']) ? $settings['rows'] : Shop_Content::why_layero_rows();
 		?>
-		<section class="lyr-section lyr-why">
+		<section class="sh-band sh-band--tight lyr-why">
+			<div class="shop-wrap">
 			<?php $this->render_section_header($settings); ?>
 			<?php if (! empty($settings['lead'])) : ?>
-				<p class="lyr-why__lead"><?php echo wp_kses($settings['lead'], array('b' => array(), 'strong' => array(), 'em' => array())); ?></p>
+				<p class="sh-whyus-lead lyr-why__lead"><?php echo wp_kses($settings['lead'], array('b' => array(), 'strong' => array(), 'em' => array())); ?></p>
 			<?php endif; ?>
-			<div class="lyr-why__table">
-				<div class="lyr-why__row lyr-why__row--head">
+			<div class="sh-whyus lyr-why__table">
+				<div class="sh-whyus__row sh-whyus__row--head lyr-why__row lyr-why__row--head">
 					<span></span><b><?php esc_html_e('Layero ajándék', 'layero-shop-ui'); ?></b><b><?php esc_html_e('Hagyományos ajándék', 'layero-shop-ui'); ?></b>
 				</div>
 				<?php foreach ($rows as $row) : ?>
-					<div class="lyr-why__row">
+					<div class="sh-whyus__row lyr-why__row">
 						<span><?php echo esc_html($row['feature'] ?? ''); ?></span>
-						<b class="is-good"><?php echo Helpers::icon('check'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo esc_html($row['layero'] ?? ''); ?></b>
-						<b class="is-muted"><?php echo esc_html($row['classic'] ?? ''); ?></b>
+						<b class="ok is-good"><?php echo Helpers::icon('check'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo esc_html($row['layero'] ?? ''); ?></b>
+						<b class="no is-muted"><?php echo esc_html($row['classic'] ?? ''); ?></b>
 					</div>
 				<?php endforeach; ?>
 			</div>
 			<?php if (! empty($settings['footer_text']) || ! empty($settings['footer_button_text'])) : ?>
-				<div class="lyr-why__foot">
+				<div class="sh-whyus-foot lyr-why__foot">
 					<span><?php echo esc_html($settings['footer_text'] ?? ''); ?></span>
 					<?php if (! empty($settings['footer_button_text'])) : ?>
-						<a class="lyr-btn lyr-btn--primary" href="<?php echo esc_url($this->get_link_url($settings['footer_button_url'] ?? array(), '/kviz/')); ?>"><?php echo esc_html($settings['footer_button_text']); ?> &rsaquo;</a>
+						<a class="sh-btn sh-btn--primary lyr-btn lyr-btn--primary" href="<?php echo esc_url($this->get_link_url($settings['footer_button_url'] ?? array(), '/kviz/')); ?>"><?php echo esc_html($settings['footer_button_text']); ?> &rsaquo;</a>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
+			</div>
 		</section>
 		<?php
 	}

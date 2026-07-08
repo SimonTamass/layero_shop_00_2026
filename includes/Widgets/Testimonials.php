@@ -57,21 +57,21 @@ class Testimonials extends Base_Widget {
 			'mobile_default' => '1',
 			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-testimonials__grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+				'{{WRAPPER}} .sh-reviews' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
 			),
 		));
 		$this->add_control('star_color', array(
 			'label' => __('Csillag szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-testimonial__stars' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-review__stars' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_control('card_bg', array(
 			'label' => __('Kártya háttér', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-testimonial' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-review' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_control('card_radius', array(
@@ -80,7 +80,7 @@ class Testimonials extends Base_Widget {
 			'size_units' => array('px'),
 			'range' => array('px' => array('min' => 0, 'max' => 30)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-testimonial' => 'border-radius: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-review' => 'border-radius: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -90,16 +90,18 @@ class Testimonials extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$items = ! empty($settings['items']) ? $settings['items'] : Shop_Content::testimonials();
 		?>
-		<section class="lyr-section lyr-testimonials">
+		<section class="sh-band sh-band--tight sh-band--gray lyr-testimonials">
+			<div class="shop-wrap">
 			<?php $this->render_section_header($settings); ?>
-			<div class="lyr-testimonials__grid">
+			<div class="sh-reviews lyr-testimonials__grid">
 				<?php foreach ($items as $item) : ?>
-					<article class="lyr-testimonial">
-						<div class="lyr-testimonial__stars" aria-label="<?php echo esc_attr(absint($item['stars'] ?? 5) . ' csillag'); ?>"><?php echo esc_html(Helpers::star_rating($item['stars'] ?? 5)); ?></div>
+					<article class="sh-review sh-reveal lyr-testimonial">
+						<div class="sh-review__stars lyr-testimonial__stars" aria-label="<?php echo esc_attr(absint($item['stars'] ?? 5) . ' csillag'); ?>"><?php echo esc_html(Helpers::star_rating($item['stars'] ?? 5)); ?></div>
 						<p><?php echo esc_html($item['quote'] ?? ''); ?></p>
 						<footer><strong><?php echo esc_html($item['name'] ?? ''); ?></strong><span><?php echo esc_html($item['meta'] ?? ''); ?></span></footer>
 					</article>
 				<?php endforeach; ?>
+			</div>
 			</div>
 		</section>
 		<?php

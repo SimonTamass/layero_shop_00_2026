@@ -50,7 +50,7 @@ class Gallery_Strip extends Base_Widget {
 				'vh' => array('min' => 10, 'max' => 60),
 			),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-gallery-strip img' => 'height: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-gallery-strip img' => 'height: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->add_control('image_gap', array(
@@ -59,7 +59,7 @@ class Gallery_Strip extends Base_Widget {
 			'size_units' => array('px'),
 			'range' => array('px' => array('min' => 0, 'max' => 24)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-gallery-strip' => 'gap: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-gallery-strip' => 'gap: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->add_control('hover_zoom', array(
@@ -75,7 +75,7 @@ class Gallery_Strip extends Base_Widget {
 		$items = ! empty($settings['items']) ? $settings['items'] : Shop_Content::gallery_items();
 		$hover_class = 'yes' === ($settings['hover_zoom'] ?? 'yes') ? ' lyr-gallery-strip--hover' : '';
 		?>
-		<section class="lyr-gallery-strip<?php echo esc_attr($hover_class); ?>" aria-label="<?php esc_attr_e('Válogatás a munkáinkból', 'layero-shop-ui'); ?>">
+		<section class="sh-gallery-strip lyr-gallery-strip<?php echo esc_attr($hover_class); ?>" aria-label="<?php esc_attr_e('Válogatás a munkáinkból', 'layero-shop-ui'); ?>">
 			<?php foreach ($items as $item) : ?>
 				<?php $image = $item['image']['url'] ?? ''; ?>
 				<?php if ($image) : ?>

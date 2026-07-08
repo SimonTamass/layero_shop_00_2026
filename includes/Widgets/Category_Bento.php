@@ -64,7 +64,7 @@ class Category_Bento extends Base_Widget {
 			'mobile_default' => '1',
 			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-category-grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+				'{{WRAPPER}} .sh-cats' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
 			),
 		));
 		$this->add_responsive_control('gap', array(
@@ -73,7 +73,7 @@ class Category_Bento extends Base_Widget {
 			'size_units' => array('px', 'rem'),
 			'range' => array('px' => array('min' => 0, 'max' => 60)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-category-grid' => 'gap: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-cats' => 'gap: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->add_control('card_radius', array(
@@ -82,14 +82,14 @@ class Category_Bento extends Base_Widget {
 			'size_units' => array('px'),
 			'range' => array('px' => array('min' => 0, 'max' => 30)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-category-card' => 'border-radius: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-bento' => 'border-radius: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->add_control('overlay_color', array(
 			'label' => __('Overlay szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-category-card::after' => 'background: {{VALUE}};',
+				'{{WRAPPER}} .sh-bento::after' => 'background: {{VALUE}};',
 			),
 		));
 		$this->end_controls_section();
@@ -120,9 +120,10 @@ class Category_Bento extends Base_Widget {
 			});
 		}
 		?>
-		<section class="lyr-section lyr-categories" id="kategoriak">
-			<?php $this->render_section_header($settings); ?>
-			<div class="lyr-category-grid">
+		<section class="sh-band sh-band--tight lyr-categories" id="kategoriak">
+			<div class="shop-wrap">
+				<?php $this->render_section_header($settings); ?>
+				<div class="sh-cats lyr-category-grid">
 				<?php if ($has_terms) : ?>
 					<?php foreach ($terms as $index => $term) : ?>
 						<?php echo Helpers::category_card($term, 0 === $index && 'yes' === ($settings['highlight_first'] ?? 'yes'), $show_count); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -134,6 +135,7 @@ class Category_Bento extends Base_Widget {
 						<?php endif; ?>
 					<?php endforeach; ?>
 				<?php endif; ?>
+				</div>
 			</div>
 		</section>
 		<?php

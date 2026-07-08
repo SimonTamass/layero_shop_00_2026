@@ -52,21 +52,21 @@ class Newsletter_Banner extends Base_Widget {
 			'label' => __('Háttérszín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-newsletter' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-nlbanner' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_control('text_color', array(
 			'label' => __('Szöveg szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-newsletter' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-nlbanner' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_control('btn_bg_color', array(
 			'label' => __('Gomb háttér', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-newsletter .lyr-btn' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-nlbanner .sh-btn' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->end_controls_section();
@@ -77,19 +77,20 @@ class Newsletter_Banner extends Base_Widget {
 		$title = $this->normalize_title($settings['title'] ?? '');
 		$note = $this->normalize_note($settings['note'] ?? '');
 		?>
-		<section class="lyr-newsletter">
-			<div class="lyr-newsletter__copy">
-				<span class="lyr-newsletter__icon"><?php echo Helpers::icon('mail'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+		<section class="sh-band sh-band--tight">
+			<div class="shop-wrap">
+			<div class="sh-nlbanner lyr-newsletter">
+			<div class="sh-nlbanner__copy lyr-newsletter__copy">
 				<h2><?php echo esc_html($title); ?></h2>
 				<p><?php echo esc_html($settings['text'] ?? ''); ?></p>
-				<form data-layero-newsletter>
+				<form id="sh-newsletter-form">
 					<input type="email" required placeholder="<?php echo esc_attr($settings['placeholder'] ?? __('E-mail címed', 'layero-shop-ui')); ?>" aria-label="<?php echo esc_attr__('E-mail cím', 'layero-shop-ui'); ?>">
-					<button class="lyr-btn lyr-btn--dark" type="submit"><?php echo esc_html($settings['button_text'] ?? __('Feliratkozom', 'layero-shop-ui')); ?></button>
+					<button class="sh-btn sh-btn--dark lyr-btn lyr-btn--dark" type="submit"><?php echo esc_html($settings['button_text'] ?? __('Feliratkozom', 'layero-shop-ui')); ?></button>
 				</form>
-				<small data-layero-newsletter-note><?php echo wp_kses($note, array('a' => array('href' => array()))); ?></small>
+				<small class="sh-nlbanner__note" data-layero-newsletter-note><?php echo wp_kses($note, array('a' => array('href' => array()))); ?></small>
 			</div>
 			<?php if ('yes' === ($settings['show_ticket'] ?? 'yes')) : ?>
-				<figure class="lyr-newsletter__art" aria-hidden="true">
+				<figure class="sh-nlbanner__art lyr-newsletter__art" aria-hidden="true">
 					<svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg">
 						<defs>
 							<linearGradient id="lyr-nl-cyan" x1="0" y1="0" x2="1" y2="1">
@@ -127,6 +128,8 @@ class Newsletter_Banner extends Base_Widget {
 					</svg>
 				</figure>
 			<?php endif; ?>
+			</div>
+			</div>
 		</section>
 		<?php
 	}

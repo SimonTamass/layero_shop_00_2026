@@ -58,21 +58,21 @@ class Lab_Preview extends Base_Widget {
 			'label' => __('Háttérszín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-lab' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-lab' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_control('text_color', array(
 			'label' => __('Szöveg szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-lab' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-lab' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_control('btn_color', array(
 			'label' => __('Gomb szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-lab .lyr-btn' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-lab .sh-btn' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->end_controls_section();
@@ -81,25 +81,26 @@ class Lab_Preview extends Base_Widget {
 	protected function render() {
 		$settings = $this->get_settings_for_display();
 		?>
-		<section class="lyr-lab" data-layero-lab>
-			<div class="lyr-lab__copy">
+		<section class="sh-lab lyr-lab">
+			<div class="sh-lab__copy lyr-lab__copy">
 				<?php if (! empty($settings['eyebrow'])) : ?>
-					<span><?php echo esc_html($settings['eyebrow']); ?></span>
+					<span class="sh-label sh-lab__eyebrow"><?php echo esc_html($settings['eyebrow']); ?></span>
 				<?php endif; ?>
 				<h2><?php echo wp_kses($settings['title'] ?? '', array('em' => array(), 'br' => array())); ?></h2>
 				<p><?php echo esc_html($settings['text'] ?? ''); ?></p>
-				<form>
+				<form class="sh-lab__form" id="sh-lab-form">
 					<input type="text" maxlength="14" placeholder="<?php echo esc_attr($settings['input_placeholder'] ?? __('pl. Dominik', 'layero-shop-ui')); ?>" aria-label="<?php echo esc_attr__('Név a nyomtatáshoz', 'layero-shop-ui'); ?>" autocomplete="off">
-					<button class="lyr-btn lyr-btn--primary" type="submit"><?php echo esc_html($settings['submit_text'] ?? __('Nyomtasd ki!', 'layero-shop-ui')); ?></button>
+					<button class="sh-btn sh-btn--primary lyr-btn lyr-btn--primary" type="submit"><?php echo esc_html($settings['submit_text'] ?? __('Nyomtasd ki!', 'layero-shop-ui')); ?></button>
 				</form>
-				<div class="lyr-lab__result" data-layero-lab-result hidden>
+				<div class="sh-lab__result lyr-lab__result" data-layero-lab-result hidden>
 					<span data-layero-lab-stats></span>
-					<a class="lyr-link--light" href="<?php echo esc_url($this->get_link_url($settings['product_url'] ?? array())); ?>" data-layero-lab-link><?php echo esc_html($settings['result_text'] ?? __('Kérem lámpaként', 'layero-shop-ui')); ?> &rsaquo;</a>
+					<a class="sh-link--light lyr-link--light" href="<?php echo esc_url($this->get_link_url($settings['product_url'] ?? array())); ?>" data-layero-lab-link><?php echo esc_html($settings['result_text'] ?? __('Kérem lámpaként', 'layero-shop-ui')); ?> &rsaquo;</a>
 				</div>
 			</div>
-			<div class="lyr-lab__preview">
-				<div class="lyr-lab__lamp"><b data-layero-lab-name>Layero</b></div>
-				<span><?php echo esc_html__('Rétegről rétegre épülő előnézet', 'layero-shop-ui'); ?></span>
+			<div class="sh-lab__stage lyr-lab__preview">
+				<canvas id="sh-lab-canvas" aria-label="<?php echo esc_attr__('Nyomtatás-előnézet', 'layero-shop-ui'); ?>"></canvas>
+				<b data-layero-lab-name hidden>Layero</b>
+				<span class="sh-lab__hint" id="sh-lab-hint" aria-hidden="true">&#8635; <?php echo esc_html__('Fogd meg és forgasd', 'layero-shop-ui'); ?></span>
 			</div>
 		</section>
 		<?php

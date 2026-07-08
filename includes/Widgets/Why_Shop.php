@@ -65,14 +65,14 @@ class Why_Shop extends Base_Widget {
 			'mobile_default' => '1',
 			'options' => array('1' => '1', '2' => '2', '3' => '3', '4' => '4'),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-why-shop__grid' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+				'{{WRAPPER}} .sh-whyshop' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
 			),
 		));
 		$this->add_control('icon_color', array(
 			'label' => __('Ikon szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-why-shop__grid svg' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-whyshop svg' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_responsive_control('gap', array(
@@ -81,7 +81,7 @@ class Why_Shop extends Base_Widget {
 			'size_units' => array('px', 'rem'),
 			'range' => array('px' => array('min' => 0, 'max' => 60)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-why-shop__grid' => 'gap: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-whyshop' => 'gap: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -91,16 +91,22 @@ class Why_Shop extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$items = ! empty($settings['items']) ? $settings['items'] : Shop_Content::why_shop_items();
 		?>
-		<section class="lyr-section lyr-why-shop">
-			<?php $this->render_section_header($settings); ?>
-			<div class="lyr-why-shop__grid">
+		<section class="sh-band sh-band--tight lyr-why-shop">
+			<div class="shop-wrap">
+			<?php $title_tag = $settings['title_tag'] ?? 'h2'; ?>
+			<?php $title_tag = in_array($title_tag, array('h1', 'h2', 'h3', 'h4', 'h5', 'h6'), true) ? $title_tag : 'h2'; ?>
+			<?php if (! empty($settings['title'])) : ?>
+				<<?php echo esc_html($title_tag); ?> class="sh-h2 sh-whyshop__title"><?php echo wp_kses($settings['title'], array('em' => array(), 'span' => array(), 'br' => array())); ?></<?php echo esc_html($title_tag); ?>>
+			<?php endif; ?>
+			<div class="sh-whyshop lyr-why-shop__grid">
 				<?php foreach ($items as $item) : ?>
 					<?php $item = $this->normalize_item($item); ?>
-					<article>
+					<article class="sh-reveal">
 						<?php echo Helpers::icon($item['icon'] ?? 'check'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<p><b><?php echo esc_html($item['title'] ?? ''); ?></b> <?php echo esc_html($item['text'] ?? ''); ?></p>
 					</article>
 				<?php endforeach; ?>
+			</div>
 			</div>
 		</section>
 		<?php

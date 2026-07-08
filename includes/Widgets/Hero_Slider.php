@@ -132,7 +132,7 @@ class Hero_Slider extends Base_Widget {
 		$this->add_control('title_tag', array(
 			'label' => __('Cím HTML tag', 'layero-shop-ui'),
 			'type' => Controls_Manager::SELECT,
-			'default' => 'h1',
+			'default' => 'h2',
 			'options' => array('h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3'),
 			'separator' => 'before',
 		));
@@ -151,45 +151,43 @@ class Hero_Slider extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$slides = ! empty($settings['slides']) ? $settings['slides'] : Shop_Content::hero_slides();
 		$speed = isset($settings['autoplay_speed']) ? absint($settings['autoplay_speed']) : 6500;
-		$title_tag = $settings['title_tag'] ?? 'h1';
+		$title_tag = $settings['title_tag'] ?? 'h2';
 		if (! in_array($title_tag, array('h1', 'h2', 'h3'), true)) {
-			$title_tag = 'h1';
+			$title_tag = 'h2';
 		}
 		?>
-		<section class="lyr-hero" data-layero-slider data-layero-speed="<?php echo esc_attr($speed); ?>" aria-label="<?php esc_attr_e('Kiemelt ajánlatok', 'layero-shop-ui'); ?>">
-			<div class="lyr-hero__slides">
+		<section class="sh-slider" id="sh-slider" aria-label="<?php esc_attr_e('Kiemelt ajánlatok', 'layero-shop-ui'); ?>">
 				<?php foreach ($slides as $index => $slide) : ?>
 					<?php $image_url = $slide['image']['url'] ?? ''; ?>
-					<article class="lyr-hero__slide <?php echo 0 === $index ? 'is-active' : ''; ?>">
+					<article class="sh-slide <?php echo 0 === $index ? 'is-on' : ''; ?>">
 						<?php if ($image_url) : ?>
-							<img src="<?php echo esc_url($image_url); ?>" alt="" loading="<?php echo 0 === $index ? 'eager' : 'lazy'; ?>">
+							<div class="sh-slide__media"><img src="<?php echo esc_url($image_url); ?>" alt="" loading="<?php echo 0 === $index ? 'eager' : 'lazy'; ?>"></div>
 						<?php endif; ?>
-						<div class="lyr-hero__copy">
+						<div class="sh-slide__copy">
 							<?php if (! empty($slide['eyebrow'])) : ?>
-								<span><?php echo esc_html($slide['eyebrow']); ?></span>
+								<span class="sh-slide__eyebrow"><?php echo esc_html($slide['eyebrow']); ?></span>
 							<?php endif; ?>
 							<<?php echo esc_html($title_tag); ?>><?php echo wp_kses($slide['title'] ?? '', array('em' => array(), 'br' => array())); ?></<?php echo esc_html($title_tag); ?>>
 							<?php if (! empty($slide['text'])) : ?>
 								<p><?php echo esc_html($slide['text']); ?></p>
 							<?php endif; ?>
-							<div class="lyr-hero__cta">
+							<div class="sh-slide__cta">
 								<?php if (! empty($slide['button_text'])) : ?>
-									<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url($this->get_link_url($slide['button_url'] ?? array())); ?>"><?php echo esc_html($slide['button_text']); ?></a>
+									<a class="sh-btn sh-btn--white" href="<?php echo esc_url($this->get_link_url($slide['button_url'] ?? array())); ?>"><?php echo esc_html($slide['button_text']); ?></a>
 								<?php endif; ?>
 								<?php if (! empty($slide['secondary_text'])) : ?>
-									<a class="lyr-link--light" href="<?php echo esc_url($this->get_link_url($slide['secondary_url'] ?? array())); ?>"><?php echo esc_html($slide['secondary_text']); ?> &rsaquo;</a>
+									<a class="sh-link--light" href="<?php echo esc_url($this->get_link_url($slide['secondary_url'] ?? array())); ?>"><?php echo esc_html($slide['secondary_text']); ?> &rsaquo;</a>
 								<?php endif; ?>
 							</div>
 						</div>
 					</article>
 				<?php endforeach; ?>
-			</div>
 			<?php if ('yes' === ($settings['show_arrows'] ?? 'yes') && count($slides) > 1) : ?>
-				<button class="lyr-hero__nav lyr-hero__nav--prev" type="button" aria-label="<?php esc_attr_e('Előző', 'layero-shop-ui'); ?>">&lsaquo;</button>
-				<button class="lyr-hero__nav lyr-hero__nav--next" type="button" aria-label="<?php esc_attr_e('Következő', 'layero-shop-ui'); ?>">&rsaquo;</button>
+				<button class="sh-slider__nav sh-slider__nav--prev" type="button" data-slide-prev aria-label="<?php esc_attr_e('Előző', 'layero-shop-ui'); ?>">&lsaquo;</button>
+				<button class="sh-slider__nav sh-slider__nav--next" type="button" data-slide-next aria-label="<?php esc_attr_e('Következő', 'layero-shop-ui'); ?>">&rsaquo;</button>
 			<?php endif; ?>
 			<?php if ('yes' === ($settings['show_dots'] ?? 'yes') && count($slides) > 1) : ?>
-				<div class="lyr-hero__dots" role="tablist" aria-label="<?php esc_attr_e('Slide választó', 'layero-shop-ui'); ?>"></div>
+				<div class="sh-slider__dots" id="sh-slider-dots" role="tablist" aria-label="<?php esc_attr_e('Slide választó', 'layero-shop-ui'); ?>"></div>
 			<?php endif; ?>
 		</section>
 		<?php

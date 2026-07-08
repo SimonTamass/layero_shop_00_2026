@@ -43,7 +43,7 @@ class Footnotes extends Base_Widget {
 			'label' => __('Szöveg szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-footnotes' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-footnotes' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_group_control(
@@ -51,7 +51,7 @@ class Footnotes extends Base_Widget {
 			array(
 				'name' => 'text_typography',
 				'label' => __('Tipográfia', 'layero-shop-ui'),
-				'selector' => '{{WRAPPER}} .lyr-footnotes p',
+				'selector' => '{{WRAPPER}} .sh-footnotes p',
 			)
 		);
 		$this->add_responsive_control('spacing', array(
@@ -60,7 +60,7 @@ class Footnotes extends Base_Widget {
 			'size_units' => array('px', 'rem'),
 			'range' => array('px' => array('min' => 0, 'max' => 80)),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-footnotes' => 'margin-top: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-footnotes' => 'margin-top: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -70,7 +70,7 @@ class Footnotes extends Base_Widget {
 		$settings = $this->get_settings_for_display();
 		$items = ! empty($settings['items']) ? $settings['items'] : Shop_Content::footnotes();
 		?>
-		<div class="lyr-footnotes">
+		<div class="shop-wrap sh-footnotes lyr-footnotes">
 			<?php foreach ($items as $index => $item) : ?>
 				<p><sup><?php echo esc_html($index + 1); ?></sup> <?php echo esc_html($this->normalize_text($item['text'] ?? '', $index)); ?></p>
 			<?php endforeach; ?>

@@ -64,14 +64,14 @@ class Value_Marquee extends Base_Widget {
 			'label' => __('Szöveg szín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-marquee' => 'color: {{VALUE}};',
+				'{{WRAPPER}} .sh-marquee' => 'color: {{VALUE}};',
 			),
 		));
 		$this->add_control('bg_color', array(
 			'label' => __('Háttérszín', 'layero-shop-ui'),
 			'type' => Controls_Manager::COLOR,
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-marquee' => 'background-color: {{VALUE}};',
+				'{{WRAPPER}} .sh-marquee' => 'background-color: {{VALUE}};',
 			),
 		));
 		$this->add_responsive_control('font_size', array(
@@ -83,7 +83,7 @@ class Value_Marquee extends Base_Widget {
 				'rem' => array('min' => 0.5, 'max' => 3),
 			),
 			'selectors' => array(
-				'{{WRAPPER}} .lyr-marquee' => 'font-size: {{SIZE}}{{UNIT}};',
+				'{{WRAPPER}} .sh-marquee' => 'font-size: {{SIZE}}{{UNIT}};',
 			),
 		));
 		$this->end_controls_section();
@@ -95,14 +95,14 @@ class Value_Marquee extends Base_Widget {
 		$speed = isset($settings['speed']) ? absint($settings['speed']) : 34;
 		$separator = $settings['separator'] ?? '✦';
 		$pause = 'yes' === ($settings['pause_on_hover'] ?? 'yes');
-		$classes = 'lyr-marquee';
+		$classes = 'sh-marquee';
 		if ($pause) {
 			$classes .= ' lyr-marquee--pause';
 		}
 		?>
 		<div class="<?php echo esc_attr($classes); ?>" style="<?php echo esc_attr('--lyr-marquee-speed:' . $speed . 's'); ?>">
 			<?php for ($copy = 0; $copy < 2; $copy++) : ?>
-				<div class="lyr-marquee__track" <?php echo $copy ? 'aria-hidden="true"' : ''; ?>>
+				<div class="sh-marquee__track" <?php echo $copy ? 'aria-hidden="true"' : ''; ?>>
 					<?php foreach ($items as $item) : ?>
 						<span><?php echo esc_html($item['text'] ?? ''); ?></span><i aria-hidden="true"><?php echo esc_html($separator); ?></i>
 					<?php endforeach; ?>

@@ -214,6 +214,7 @@ final class Helpers {
 		$link = get_permalink($product->get_id());
 		$cat_names = function_exists('wc_get_product_category_list') ? wc_get_product_category_list($product->get_id(), ', ') : '';
 		$classes = implode(' ', array_map('sanitize_html_class', wc_get_product_class('lyr-product-card', $product)));
+		$classes = trim($classes . ' sh-prod-card sh-reveal');
 		$is_simple_ajax = $product->supports('ajax_add_to_cart') && $product->is_purchasable() && $product->is_in_stock();
 		$button_text = $args['button_text'] ? $args['button_text'] : $product->add_to_cart_text();
 		$excerpt = wp_trim_words(wp_strip_all_tags($product->get_short_description() ?: $product->get_description()), 18);
@@ -221,35 +222,36 @@ final class Helpers {
 		ob_start();
 		?>
 		<article class="<?php echo esc_attr($classes); ?>" data-layero-product-card data-layero-product-id="<?php echo esc_attr($product->get_id()); ?>">
-			<a class="lyr-product-card__media" href="<?php echo esc_url($link); ?>">
+			<figure class="lyr-product-card__media">
 				<?php if ($product->is_on_sale()) : ?>
 					<span class="lyr-badge lyr-badge--sale"><?php echo esc_html__('Akció', 'layero-shop-ui'); ?></span>
 				<?php elseif ($product->is_featured()) : ?>
 					<span class="lyr-badge"><?php echo esc_html__('Kiemelt', 'layero-shop-ui'); ?></span>
 				<?php endif; ?>
 				<?php echo self::product_image($product, $args['image_size']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</a>
-			<button class="lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="<?php echo esc_attr($product->get_id()); ?>" aria-label="<?php esc_attr_e('Kedvencekhez adás', 'layero-shop-ui'); ?>">
+			</figure>
+			<button class="sh-heart lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="<?php echo esc_attr($product->get_id()); ?>" aria-label="<?php esc_attr_e('Kedvencekhez adás', 'layero-shop-ui'); ?>">
 				<?php echo self::icon('heart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</button>
-			<div class="lyr-product-card__body">
+			<div class="sh-prod-card__body lyr-product-card__body">
+				<a class="sh-card-link" href="<?php echo esc_url($link); ?>" aria-label="<?php echo esc_attr($product->get_name()); ?>"></a>
 				<?php if ($cat_names) : ?>
-					<div class="lyr-product-card__cat"><?php echo wp_kses_post($cat_names); ?></div>
+					<span class="sh-prod-card__cat lyr-product-card__cat"><?php echo wp_kses_post($cat_names); ?></span>
 				<?php endif; ?>
-				<h3><a href="<?php echo esc_url($link); ?>"><?php echo esc_html($product->get_name()); ?></a></h3>
-				<?php if ($args['show_excerpt'] && $excerpt) : ?>
+				<span class="sh-prod-card__name"><?php echo esc_html($product->get_name()); ?></span>
+				<?php if (false && $args['show_excerpt'] && $excerpt) : ?>
 					<p><?php echo esc_html($excerpt); ?></p>
 				<?php endif; ?>
 				<?php if (function_exists('wc_get_rating_html')) : ?>
-					<div class="lyr-product-card__rating"><?php echo wc_get_rating_html($product->get_average_rating()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+					<div class="sh-rate lyr-product-card__rating"><?php echo wc_get_rating_html($product->get_average_rating()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 				<?php endif; ?>
-				<div class="lyr-product-card__price"><?php echo wp_kses_post($product->get_price_html()); ?></div>
+				<span class="sh-prod-card__price lyr-product-card__price"><?php echo wp_kses_post($product->get_price_html()); ?></span>
 				<a
 					href="<?php echo esc_url($product->add_to_cart_url()); ?>"
 					data-quantity="1"
 					data-product_id="<?php echo esc_attr($product->get_id()); ?>"
 					data-product_sku="<?php echo esc_attr($product->get_sku()); ?>"
-					class="lyr-btn lyr-btn--primary lyr-product-card__add <?php echo $is_simple_ajax ? 'ajax_add_to_cart add_to_cart_button' : ''; ?>"
+					class="sh-card-add lyr-btn lyr-btn--primary lyr-product-card__add <?php echo $is_simple_ajax ? 'ajax_add_to_cart add_to_cart_button' : ''; ?>"
 					aria-label="<?php echo esc_attr($product->add_to_cart_description()); ?>"
 					rel="nofollow"
 				><?php echo self::icon('cart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><span><?php echo esc_html($button_text); ?></span></a>
@@ -279,31 +281,32 @@ final class Helpers {
 
 		ob_start();
 		?>
-		<article class="lyr-product-card lyr-product-card--demo" data-layero-product-card data-layero-product-id="<?php echo esc_attr($product['id']); ?>">
-			<a class="lyr-product-card__media" href="<?php echo esc_url($link); ?>">
+		<article class="sh-prod-card sh-reveal lyr-product-card lyr-product-card--demo" data-layero-product-card data-layero-product-id="<?php echo esc_attr($product['id']); ?>">
+			<figure class="lyr-product-card__media">
 				<?php if (! empty($product['badge'])) : ?>
-					<span class="lyr-badge"><?php echo esc_html($product['badge']); ?></span>
+					<span class="sh-badge sh-badge--info lyr-badge"><?php echo esc_html($product['badge']); ?></span>
 				<?php endif; ?>
 				<img src="<?php echo esc_url(Shop_Content::asset_url($product['image'])); ?>" alt="<?php echo esc_attr($product['name']); ?>" loading="lazy">
-			</a>
-			<button class="lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="<?php echo esc_attr($product['id']); ?>" aria-label="<?php esc_attr_e('Kedvencekhez adás', 'layero-shop-ui'); ?>">
+			</figure>
+			<button class="sh-heart lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="<?php echo esc_attr($product['id']); ?>" aria-label="<?php esc_attr_e('Kedvencekhez adás', 'layero-shop-ui'); ?>">
 				<?php echo self::icon('heart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</button>
-			<div class="lyr-product-card__body">
+			<div class="sh-prod-card__body lyr-product-card__body">
+				<a class="sh-card-link" href="<?php echo esc_url($link); ?>" aria-label="<?php echo esc_attr($product['name']); ?>"></a>
 				<?php if ($category) : ?>
-					<div class="lyr-product-card__cat"><a href="<?php echo esc_url($category_link); ?>"><?php echo esc_html($category['name']); ?></a></div>
+					<span class="sh-prod-card__cat lyr-product-card__cat"><?php echo esc_html($category['name']); ?></span>
 				<?php endif; ?>
-				<h3><a href="<?php echo esc_url($link); ?>"><?php echo esc_html($product['name']); ?></a></h3>
-				<?php if ($args['show_excerpt']) : ?>
+				<span class="sh-prod-card__name"><?php echo esc_html($product['name']); ?></span>
+				<?php if (false && $args['show_excerpt']) : ?>
 					<p><?php echo esc_html($product['description']); ?></p>
 				<?php endif; ?>
-				<div class="lyr-product-card__price">
+				<span class="sh-prod-card__price lyr-product-card__price">
 					<?php if (! empty($product['regular_price']) && $product['regular_price'] > $product['price']) : ?>
 						<del><?php echo esc_html(number_format_i18n($product['regular_price'], 0) . ' RON'); ?></del>
 					<?php endif; ?>
 					<?php echo esc_html($price); ?>
-				</div>
-				<a class="lyr-btn lyr-btn--primary lyr-product-card__add" href="<?php echo esc_url($link); ?>">
+				</span>
+				<a class="sh-card-add lyr-btn lyr-btn--primary lyr-product-card__add" href="<?php echo esc_url($link); ?>">
 					<?php echo self::icon('cart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					<span><?php echo esc_html($args['button_text']); ?></span>
 				</a>
@@ -327,8 +330,7 @@ final class Helpers {
 
 		ob_start();
 		?>
-		<a class="lyr-category-card <?php echo $large ? 'lyr-category-card--hero' : ''; ?>" href="<?php echo esc_url($link); ?>">
-			<figure>
+		<a class="sh-bento sh-reveal lyr-category-card <?php echo $large ? 'sh-bento--hero lyr-category-card--hero' : ''; ?>" href="<?php echo esc_url($link); ?>">
 				<?php if ($image) : ?>
 					<?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<?php elseif ($fallback) : ?>
@@ -336,14 +338,16 @@ final class Helpers {
 				<?php elseif (function_exists('wc_placeholder_img')) : ?>
 					<?php echo wc_placeholder_img('large'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				<?php endif; ?>
-			</figure>
-			<span>
-				<?php echo esc_html($description); ?>
+			<span class="sh-bento__body">
+				<strong><?php echo esc_html($term->name); ?></strong>
+				<small>
+					<?php echo esc_html($description); ?>
 				<?php if ($show_count) : ?>
 					<?php echo $description ? ' · ' : ''; ?><?php echo esc_html($term->count); ?> <?php echo esc_html__('termék', 'layero-shop-ui'); ?>
 				<?php endif; ?>
+				</small>
+				<i aria-hidden="true"><?php esc_html_e('Felfedezem', 'layero-shop-ui'); ?> &rsaquo;</i>
 			</span>
-			<strong><?php echo esc_html($term->name); ?></strong>
 		</a>
 		<?php
 		return ob_get_clean();
@@ -354,17 +358,18 @@ final class Helpers {
 
 		ob_start();
 		?>
-		<a class="lyr-category-card <?php echo $large ? 'lyr-category-card--hero' : ''; ?>" href="<?php echo esc_url($link); ?>">
-			<figure>
-				<img src="<?php echo esc_url(Shop_Content::asset_url($category['image'])); ?>" alt="<?php echo esc_attr($category['name']); ?>" loading="lazy">
-			</figure>
-			<span>
-				<?php echo esc_html($category['description']); ?>
+		<a class="sh-bento sh-reveal lyr-category-card <?php echo $large ? 'sh-bento--hero lyr-category-card--hero' : ''; ?>" href="<?php echo esc_url($link); ?>">
+			<img src="<?php echo esc_url(Shop_Content::asset_url($category['image'])); ?>" alt="<?php echo esc_attr($category['name']); ?>" loading="lazy">
+			<span class="sh-bento__body">
+				<strong><?php echo esc_html($category['name']); ?></strong>
+				<small>
+					<?php echo esc_html($category['description']); ?>
 				<?php if ($show_count) : ?>
 					· <?php echo esc_html($category['count']); ?> <?php echo esc_html__('termék', 'layero-shop-ui'); ?>
 				<?php endif; ?>
+				</small>
+				<i aria-hidden="true"><?php esc_html_e('Felfedezem', 'layero-shop-ui'); ?> &rsaquo;</i>
 			</span>
-			<strong><?php echo esc_html($category['name']); ?></strong>
 		</a>
 		<?php
 		return ob_get_clean();

@@ -7,10 +7,10 @@
 		if (root.dataset.layeroSliderReady === '1') return;
 		root.dataset.layeroSliderReady = '1';
 
-		var slides = Array.prototype.slice.call(root.querySelectorAll('.lyr-hero__slide'));
-		var dotsWrap = root.querySelector('.lyr-hero__dots');
-		var prev = root.querySelector('.lyr-hero__nav--prev');
-		var next = root.querySelector('.lyr-hero__nav--next');
+		var slides = Array.prototype.slice.call(root.querySelectorAll('.sh-slide, .lyr-hero__slide'));
+		var dotsWrap = root.querySelector('.sh-slider__dots, .lyr-hero__dots');
+		var prev = root.querySelector('[data-slide-prev], .lyr-hero__nav--prev');
+		var next = root.querySelector('[data-slide-next], .lyr-hero__nav--next');
 		if (!slides.length) return;
 
 		var current = 0;
@@ -34,11 +34,13 @@
 			current = (index + slides.length) % slides.length;
 			slides.forEach(function (slide, i) {
 				var active = i === current;
+				slide.classList.toggle('is-on', active);
 				slide.classList.toggle('is-active', active);
 				slide.setAttribute('aria-hidden', active ? 'false' : 'true');
 			});
 			dots.forEach(function (dot, i) {
 				var active = i === current;
+				dot.classList.toggle('is-on', active);
 				dot.classList.toggle('is-active', active);
 				dot.setAttribute('aria-selected', active ? 'true' : 'false');
 			});
@@ -174,6 +176,7 @@
 		(context || document).querySelectorAll('[data-layero-wish-toggle]').forEach(function (button) {
 			var id = String(button.getAttribute('data-layero-product-id') || '');
 			var active = id && items.indexOf(id) !== -1;
+			button.classList.toggle('is-on', active);
 			button.classList.toggle('is-active', active);
 			button.setAttribute('aria-pressed', active ? 'true' : 'false');
 		});
@@ -276,15 +279,15 @@
 		function card(product) {
 			var price = product.price > 0 ? product.price + ' RON' : 'Ajánlatkérés';
 			var was = product.regular_price && product.regular_price > product.price ? '<del>' + escapeHtml(product.regular_price + ' RON') + '</del>' : '';
-			var badge = product.badge ? '<span class="lyr-badge">' + escapeHtml(product.badge) + '</span>' : '';
-			return '<article class="lyr-product-card lyr-product-card--demo" data-layero-product-card data-layero-product-id="' + escapeHtml(product.id) + '">' +
-				'<a class="lyr-product-card__media" href="' + escapeHtml(product.url) + '">' + badge + '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy"></a>' +
-				'<button class="lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="' + escapeHtml(product.id) + '" aria-label="Kedvencekhez adás">' + heart + '</button>' +
-				'<div class="lyr-product-card__body"><div class="lyr-product-card__cat">' + escapeHtml(product.category) + '</div>' +
-				'<h3><a href="' + escapeHtml(product.url) + '">' + escapeHtml(product.name) + '</a></h3>' +
-				'<p>' + escapeHtml(product.description) + '</p>' +
-				'<div class="lyr-product-card__price">' + was + escapeHtml(price) + '</div>' +
-				'<a class="lyr-btn lyr-btn--primary lyr-product-card__add" href="' + escapeHtml(product.url) + '">' + cart + '<span>Megnézem</span></a></div></article>';
+			var badge = product.badge ? '<span class="sh-badge sh-badge--info lyr-badge">' + escapeHtml(product.badge) + '</span>' : '';
+			return '<article class="sh-prod-card sh-reveal lyr-product-card lyr-product-card--demo" data-layero-product-card data-layero-product-id="' + escapeHtml(product.id) + '">' +
+				'<figure class="lyr-product-card__media">' + badge + '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + '" loading="lazy"></figure>' +
+				'<button class="sh-heart lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="' + escapeHtml(product.id) + '" aria-label="Kedvencekhez adás">' + heart + '</button>' +
+				'<div class="sh-prod-card__body lyr-product-card__body"><a class="sh-card-link" href="' + escapeHtml(product.url) + '" aria-label="' + escapeHtml(product.name) + '"></a>' +
+				'<span class="sh-prod-card__cat lyr-product-card__cat">' + escapeHtml(product.category) + '</span>' +
+				'<span class="sh-prod-card__name">' + escapeHtml(product.name) + '</span>' +
+				'<span class="sh-prod-card__price lyr-product-card__price">' + was + escapeHtml(price) + '</span>' +
+				'<a class="sh-card-add lyr-btn lyr-btn--primary lyr-product-card__add" href="' + escapeHtml(product.url) + '">' + cart + '<span>Megnézem</span></a></div></article>';
 		}
 
 		function renderResult() {
