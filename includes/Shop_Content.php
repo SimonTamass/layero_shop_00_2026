@@ -19,7 +19,7 @@ final class Shop_Content {
 				'text' => 'Világító lámpák, kulcstartók és dekorációk — névvel, logóval, egyedi 3D gyártásban.',
 				'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0009.png')),
 				'button_text' => 'Vásárlás most',
-				'button_url' => array('url' => '/shop/'),
+				'button_url' => array('url' => '/termekek/'),
 				'secondary_text' => 'Kategóriák',
 				'secondary_url' => array('url' => '#kategoriak'),
 			),
@@ -29,7 +29,7 @@ final class Shop_Content {
 				'text' => 'Kedvenc film, játék, sport vagy hobbi — LED-világítással, saját névvel.',
 				'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0013.png')),
 				'button_text' => 'Lámpák megnézése',
-				'button_url' => array('url' => '/product-category/lampak/'),
+				'button_url' => array('url' => '/termekek/?cat=lampak'),
 				'secondary_text' => '',
 				'secondary_url' => array('url' => ''),
 			),
@@ -39,7 +39,7 @@ final class Shop_Content {
 				'text' => 'Küldj egy leírást vagy referenciaképet — megtervezzük és kinyomtatjuk.',
 				'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0010.png')),
 				'button_text' => 'Ajánlatot kérek',
-				'button_url' => array('url' => '/product/egyedi-otlet/'),
+				'button_url' => array('url' => '/termek/?id=egyedi-otlet'),
 				'secondary_text' => '',
 				'secondary_url' => array('url' => ''),
 			),
@@ -230,12 +230,12 @@ final class Shop_Content {
 
 	public static function gallery_items() {
 		return array(
-			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0009.png')), 'alt' => 'Névre szóló szám-lámpa', 'url' => array('url' => '/product-category/lampak/')),
-			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0011.png')), 'alt' => 'Dínós henger-lámpa', 'url' => array('url' => '/product-category/lampak/')),
-			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0012.png')), 'alt' => 'Fan-art világító logó', 'url' => array('url' => '/product-category/rajongoi/')),
-			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0020.png')), 'alt' => 'Tulipán üvegcső-váza', 'url' => array('url' => '/product-category/dekoraciok/')),
-			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0022.png')), 'alt' => 'QR + NFC display', 'url' => array('url' => '/product-category/ceges/')),
-			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0027.png')), 'alt' => 'Logós kulcstartó', 'url' => array('url' => '/product-category/kulcstartok/')),
+			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0009.png')), 'alt' => 'Névre szóló szám-lámpa', 'url' => array('url' => '/termekek/?cat=lampak')),
+			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0011.png')), 'alt' => 'Dínós henger-lámpa', 'url' => array('url' => '/termekek/?cat=lampak')),
+			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0012.png')), 'alt' => 'Fan-art világító logó', 'url' => array('url' => '/termekek/?cat=rajongoi')),
+			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0020.png')), 'alt' => 'Tulipán üvegcső-váza', 'url' => array('url' => '/termekek/?cat=dekoraciok')),
+			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0022.png')), 'alt' => 'QR + NFC display', 'url' => array('url' => '/termekek/?cat=ceges')),
+			array('image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0027.png')), 'alt' => 'Logós kulcstartó', 'url' => array('url' => '/termekek/?cat=kulcstartok')),
 		);
 	}
 
@@ -244,7 +244,7 @@ final class Shop_Content {
 			'title' => 'Nem találod, amit keresel? Legyártjuk neked.',
 			'text' => 'Egyedi tervezés és gyártás — leírás vagy referenciakép alapján, ajánlatkéréstől a kész darabig.',
 			'button_text' => 'Egyedi rendelést indítok',
-			'button_url' => array('url' => '/product/egyedi-otlet/'),
+			'button_url' => array('url' => '/termek/?id=egyedi-otlet'),
 			'image' => array('url' => self::asset_url('termekvilag/hero_slider/layero-asset-0018.png')),
 		);
 	}

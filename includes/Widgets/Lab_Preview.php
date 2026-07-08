@@ -41,7 +41,7 @@ class Lab_Preview extends Base_Widget {
 		$this->add_control('product_url', array(
 			'label' => __('CTA link', 'layero-shop-ui'),
 			'type' => Controls_Manager::URL,
-			'default' => array('url' => '/product/szam-lampa-nevvel/'),
+			'default' => array('url' => '/termek/?id=szam-lampa-nevvel'),
 		));
 		$this->add_control('result_text', array(
 			'label' => __('Eredmény szöveg', 'layero-shop-ui'),

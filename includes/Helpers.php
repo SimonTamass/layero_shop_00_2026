@@ -11,6 +11,110 @@ final class Helpers {
 		return class_exists('WooCommerce') && function_exists('wc_get_products');
 	}
 
+	public static function products_url($category = '', $args = array()) {
+		$query = array();
+
+		if ('' !== $category) {
+			$query['cat'] = sanitize_title($category);
+		}
+
+		foreach ((array) $args as $key => $value) {
+			if ('' !== $value && null !== $value) {
+				$query[sanitize_key($key)] = sanitize_text_field((string) $value);
+			}
+		}
+
+		return ! empty($query) ? add_query_arg($query, home_url('/termekek/')) : home_url('/termekek/');
+	}
+
+	public static function product_url($product_id = '', $args = array()) {
+		$query = array();
+
+		if ('' !== $product_id) {
+			$query['id'] = sanitize_title($product_id);
+		}
+
+		foreach ((array) $args as $key => $value) {
+			if ('' !== $value && null !== $value) {
+				$query[sanitize_key($key)] = sanitize_text_field((string) $value);
+			}
+		}
+
+		return ! empty($query) ? add_query_arg($query, home_url('/termek/')) : home_url('/termek/');
+	}
+
+	public static function normalize_shop_url($url) {
+		if (! is_string($url)) {
+			return $url;
+		}
+
+		$url = trim($url);
+		if ('' === $url || '#' === $url[0] || preg_match('#^(mailto|tel|sms|javascript):#i', $url)) {
+			return $url;
+		}
+
+		$decoded = html_entity_decode($url, ENT_QUOTES, get_bloginfo('charset') ?: 'UTF-8');
+		$home_host = wp_parse_url(home_url(), PHP_URL_HOST);
+		$url_host = wp_parse_url($decoded, PHP_URL_HOST);
+
+		if ($url_host && $home_host && 0 !== strcasecmp($url_host, $home_host)) {
+			return $url;
+		}
+
+		$path = (string) wp_parse_url($decoded, PHP_URL_PATH);
+		$query = (string) wp_parse_url($decoded, PHP_URL_QUERY);
+		$query_args = array();
+		if ('' !== $query) {
+			parse_str($query, $query_args);
+		}
+
+		$route = trim($path, '/');
+		$route = '' === $route ? trim($decoded, '/') : $route;
+		$route = preg_replace('#/+#', '/', $route);
+		$route_lc = strtolower($route);
+
+		if ('shop' === $route_lc || 'shop/' === $route_lc || 'kategoria.html' === $route_lc || 'termekek' === $route_lc) {
+			$category = isset($query_args['cat']) ? sanitize_title($query_args['cat']) : '';
+			unset($query_args['cat']);
+
+			return self::products_url($category, $query_args);
+		}
+
+		if (preg_match('#^product-category/([^/]+)/?$#i', $route, $matches)) {
+			return self::products_url($matches[1], $query_args);
+		}
+
+		if ('termek.html' === $route_lc || 'termek' === $route_lc) {
+			$product_id = isset($query_args['id']) ? sanitize_title($query_args['id']) : '';
+			unset($query_args['id']);
+
+			return self::product_url($product_id, $query_args);
+		}
+
+		if (preg_match('#^product/([^/]+)/?$#i', $route, $matches)) {
+			return self::product_url($matches[1], $query_args);
+		}
+
+		$page_map = array(
+			'index.html' => '/',
+			'rolunk.html' => '/rolunk/',
+			'gyik.html' => '/gyik/',
+			'kapcsolat.html' => '/kapcsolat/',
+			'kviz.html' => '/kviz/',
+			'kosar.html' => '/kosar/',
+			'penztar.html' => '/penztar/',
+			'fiok.html' => '/fiok/',
+			'kedvencek.html' => '/kedvencek/',
+			'404.html' => '/404/',
+		);
+
+		if (isset($page_map[$route_lc])) {
+			return ! empty($query_args) ? add_query_arg($query_args, home_url($page_map[$route_lc])) : home_url($page_map[$route_lc]);
+		}
+
+		return $url;
+	}
+
 	public static function icon($name) {
 		$icons = array(
 			'cart' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1.3 10.5a1.5 1.5 0 0 1-1.5 1.7H6.2a1.5 1.5 0 0 1-1.5-1.7L6 7Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>',
@@ -26,6 +130,7 @@ final class Helpers {
 			'check' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>',
 			'mail' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5h15v11h-15z"/><path d="m5 7 7 6 7-6"/></svg>',
 			'spark' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2Z"/><path d="M19 15l.8 2.8L22.5 19l-2.7.8L19 22.5l-.8-2.7-2.7-.8 2.7-.8L19 15Z"/></svg>',
+			'heart' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.6-9.3-9.2A5.2 5.2 0 0 1 12 6.1a5.2 5.2 0 0 1 9.3 4.7C19 15.4 12 20 12 20Z"/></svg>',
 		);
 
 		return isset($icons[$name]) ? $icons[$name] : $icons['spark'];
@@ -72,6 +177,10 @@ final class Helpers {
 			}
 		}
 
+		if (! empty($settings['search'])) {
+			$args['s'] = sanitize_text_field($settings['search']);
+		}
+
 		return wc_get_products($args);
 	}
 
@@ -111,7 +220,7 @@ final class Helpers {
 
 		ob_start();
 		?>
-		<article class="<?php echo esc_attr($classes); ?>">
+		<article class="<?php echo esc_attr($classes); ?>" data-layero-product-card data-layero-product-id="<?php echo esc_attr($product->get_id()); ?>">
 			<a class="lyr-product-card__media" href="<?php echo esc_url($link); ?>">
 				<?php if ($product->is_on_sale()) : ?>
 					<span class="lyr-badge lyr-badge--sale"><?php echo esc_html__('Akció', 'layero-shop-ui'); ?></span>
@@ -120,6 +229,9 @@ final class Helpers {
 				<?php endif; ?>
 				<?php echo self::product_image($product, $args['image_size']); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</a>
+			<button class="lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="<?php echo esc_attr($product->get_id()); ?>" aria-label="<?php esc_attr_e('Kedvencekhez adás', 'layero-shop-ui'); ?>">
+				<?php echo self::icon('heart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</button>
 			<div class="lyr-product-card__body">
 				<?php if ($cat_names) : ?>
 					<div class="lyr-product-card__cat"><?php echo wp_kses_post($cat_names); ?></div>
@@ -161,19 +273,22 @@ final class Helpers {
 		);
 
 		$category = Shop_Content::category_by_slug($product['category']);
-		$link = home_url('/product/' . $product['id'] . '/');
-		$category_link = home_url('/product-category/' . $product['category'] . '/');
+		$link = self::product_url($product['id']);
+		$category_link = self::products_url($product['category']);
 		$price = ! empty($product['price']) ? number_format_i18n($product['price'], 0) . ' RON' : __('Ajánlatkérés', 'layero-shop-ui');
 
 		ob_start();
 		?>
-		<article class="lyr-product-card lyr-product-card--demo">
+		<article class="lyr-product-card lyr-product-card--demo" data-layero-product-card data-layero-product-id="<?php echo esc_attr($product['id']); ?>">
 			<a class="lyr-product-card__media" href="<?php echo esc_url($link); ?>">
 				<?php if (! empty($product['badge'])) : ?>
 					<span class="lyr-badge"><?php echo esc_html($product['badge']); ?></span>
 				<?php endif; ?>
 				<img src="<?php echo esc_url(Shop_Content::asset_url($product['image'])); ?>" alt="<?php echo esc_attr($product['name']); ?>" loading="lazy">
 			</a>
+			<button class="lyr-product-card__wish" type="button" data-layero-wish-toggle data-layero-product-id="<?php echo esc_attr($product['id']); ?>" aria-label="<?php esc_attr_e('Kedvencekhez adás', 'layero-shop-ui'); ?>">
+				<?php echo self::icon('heart'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			</button>
 			<div class="lyr-product-card__body">
 				<?php if ($category) : ?>
 					<div class="lyr-product-card__cat"><a href="<?php echo esc_url($category_link); ?>"><?php echo esc_html($category['name']); ?></a></div>
@@ -235,7 +350,7 @@ final class Helpers {
 	}
 
 	public static function demo_category_card($category, $large = false, $show_count = true) {
-		$link = home_url('/product-category/' . $category['id'] . '/');
+		$link = self::products_url($category['id']);
 
 		ob_start();
 		?>

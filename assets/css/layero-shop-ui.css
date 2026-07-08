@@ -425,6 +425,65 @@
 	to { transform: translateX(-100%); }
 }
 
+.lyr-product-tools {
+	display: grid;
+	grid-template-columns: minmax(220px, 1fr) auto;
+	gap: 14px;
+	align-items: center;
+	margin: -10px 0 24px;
+}
+
+.lyr-product-search {
+	display: flex;
+	gap: 10px;
+	min-width: 0;
+}
+
+.lyr-product-search input,
+.lyr-product-sort select {
+	min-height: 44px;
+	border: 1px solid var(--lyr-line);
+	border-radius: var(--lyr-pill);
+	background: #fff;
+	padding: 0 16px;
+	font: inherit;
+	color: var(--lyr-ink);
+}
+
+.lyr-product-search input {
+	width: 100%;
+	min-width: 0;
+}
+
+.lyr-product-pills {
+	grid-column: 1 / -1;
+	display: flex;
+	gap: 8px;
+	overflow-x: auto;
+	padding: 2px 0 4px;
+	scrollbar-width: thin;
+}
+
+.lyr-product-pills a {
+	flex: 0 0 auto;
+	padding: 9px 14px;
+	border: 1px solid var(--lyr-line);
+	border-radius: var(--lyr-pill);
+	background: #fff;
+	color: var(--lyr-muted);
+	font-size: 0.84rem;
+	font-weight: 720;
+	text-decoration: none;
+	transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.lyr-product-pills a:hover,
+.lyr-product-pills a.is-active {
+	border-color: var(--lyr-accent);
+	background: var(--lyr-accent-soft);
+	color: var(--lyr-accent-deep);
+}
+
 .lyr-product-grid {
 	display: grid;
 	gap: 14px;
@@ -465,6 +524,43 @@
 	height: 100%;
 	object-fit: cover;
 	transition: transform 0.42s ease;
+}
+
+.lyr-product-card__wish {
+	position: absolute;
+	right: 12px;
+	top: 12px;
+	z-index: 3;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	border: 1px solid rgba(255, 255, 255, 0.72);
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.92);
+	color: var(--lyr-ink);
+	box-shadow: 0 8px 22px rgba(3, 10, 20, 0.16);
+	transition: transform 0.15s ease, color 0.16s ease, background 0.16s ease;
+}
+
+.lyr-product-card__wish:hover {
+	transform: translateY(-1px);
+	color: #e04726;
+}
+
+.lyr-product-card__wish.is-active {
+	background: #e04726;
+	color: #fff;
+}
+
+.lyr-product-card__wish.is-active svg {
+	fill: currentColor;
+}
+
+.lyr-product-card__wish svg {
+	width: 18px;
+	height: 18px;
 }
 
 .lyr-product-card:hover .lyr-product-card__media img {
@@ -545,6 +641,33 @@
 .lyr-product-card__add {
 	width: 100%;
 	margin-top: 10px;
+}
+
+.lyr-products-empty {
+	display: grid;
+	justify-items: center;
+	gap: 10px;
+	margin: 24px 0;
+	padding: 42px 24px;
+	border: 1px solid var(--lyr-line);
+	border-radius: var(--lyr-radius);
+	background: var(--lyr-surface);
+	text-align: center;
+}
+
+.lyr-products-empty[hidden] {
+	display: none;
+}
+
+.lyr-products-empty h3 {
+	margin: 0;
+	font-size: 1.25rem;
+}
+
+.lyr-products-empty p {
+	max-width: 46ch;
+	margin: 0;
+	color: var(--lyr-muted);
 }
 
 .lyr-category-grid {
@@ -853,6 +976,118 @@
 .lyr-quiz-cta > b {
 	white-space: nowrap;
 	color: var(--lyr-accent);
+}
+
+.lyr-quiz {
+	width: min(960px, calc(100% - 32px));
+	margin: clamp(38px, 6vw, 86px) auto;
+	padding: clamp(30px, 5vw, 58px);
+	border: 1px solid var(--lyr-line);
+	border-radius: var(--lyr-radius);
+	background: #fff;
+	box-shadow: var(--lyr-shadow);
+	text-align: center;
+}
+
+.lyr-quiz__head {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 24px;
+}
+
+.lyr-quiz__progress {
+	flex: 1;
+	height: 7px;
+	overflow: hidden;
+	border-radius: var(--lyr-pill);
+	background: var(--lyr-surface);
+}
+
+.lyr-quiz__progress i {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--lyr-accent);
+	transition: width 0.28s ease;
+}
+
+.lyr-quiz__count {
+	color: var(--lyr-muted);
+	font-size: 0.78rem;
+	font-weight: 760;
+	white-space: nowrap;
+}
+
+.lyr-quiz > h2,
+.lyr-quiz__result h2 {
+	margin: 0;
+	font-size: clamp(1.55rem, 3.2vw, 2.45rem);
+	line-height: 1.08;
+	letter-spacing: 0;
+}
+
+.lyr-quiz__lead,
+.lyr-quiz__result p {
+	max-width: 62ch;
+	margin: 12px auto 0;
+	color: var(--lyr-muted);
+	line-height: 1.6;
+}
+
+.lyr-quiz__options {
+	display: grid;
+	gap: 10px;
+	margin-top: 28px;
+	text-align: left;
+}
+
+.lyr-quiz__option {
+	width: 100%;
+	padding: 16px 18px;
+	border: 1px solid var(--lyr-line);
+	border-radius: var(--lyr-radius);
+	background: #fff;
+	color: var(--lyr-ink);
+	font: inherit;
+	font-weight: 720;
+	text-align: left;
+	transition: background 0.16s ease, border-color 0.16s ease, transform 0.12s ease;
+}
+
+.lyr-quiz__option:hover {
+	border-color: var(--lyr-accent);
+	background: var(--lyr-accent-soft);
+}
+
+.lyr-quiz__option:active {
+	transform: scale(0.99);
+}
+
+.lyr-quiz__back {
+	margin-top: 18px;
+	border: 0;
+	background: transparent;
+	color: var(--lyr-muted);
+	font: inherit;
+	font-weight: 720;
+}
+
+.lyr-quiz__result[hidden] {
+	display: none;
+}
+
+.lyr-quiz__result .lyr-product-grid {
+	margin-top: 28px;
+	text-align: left;
+}
+
+.lyr-quiz__actions {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-top: 28px;
 }
 
 .lyr-section__head--with-nav {
@@ -1344,6 +1579,24 @@
 		grid-template-columns: 1fr;
 	}
 
+	.lyr-product-grid,
+	.lyr-product-grid--cols-2,
+	.lyr-product-grid--cols-3,
+	.lyr-product-grid--cols-4 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.lyr-product-tools,
+	.lyr-product-search {
+		grid-template-columns: 1fr;
+	}
+
+	.lyr-product-sort,
+	.lyr-product-sort select,
+	.lyr-product-search button {
+		width: 100%;
+	}
+
 	.lyr-trust-bar article {
 		border-left: 0;
 		border-top: 1px solid var(--lyr-line);
@@ -1374,6 +1627,20 @@
 		width: min(1160px, calc(100% - 24px));
 		grid-template-columns: 1fr;
 		align-items: start;
+	}
+
+	.lyr-quiz {
+		width: min(960px, calc(100% - 24px));
+		padding: 24px;
+	}
+
+	.lyr-quiz__head {
+		display: grid;
+		grid-template-columns: 1fr auto;
+	}
+
+	.lyr-quiz__head .lyr-eyebrow {
+		grid-column: 1 / -1;
 	}
 
 	.lyr-quiz-cta > b {
@@ -1412,6 +1679,19 @@
 
 	.lyr-personalization__row {
 		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 460px) {
+	.lyr-product-grid,
+	.lyr-product-grid--cols-2,
+	.lyr-product-grid--cols-3,
+	.lyr-product-grid--cols-4 {
+		grid-template-columns: 1fr;
+	}
+
+	.lyr-product-search {
+		display: grid;
 	}
 }
 

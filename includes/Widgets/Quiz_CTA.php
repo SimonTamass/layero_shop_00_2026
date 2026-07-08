@@ -72,6 +72,11 @@ class Quiz_CTA extends Base_Widget {
 
 	protected function render() {
 		$settings = $this->get_settings_for_display();
+
+		if ($this->is_quiz_page()) {
+			$this->render_quiz($settings);
+			return;
+		}
 		?>
 		<a class="lyr-quiz-cta" href="<?php echo esc_url($this->get_link_url($settings['button_url'] ?? array(), '/kviz/')); ?>">
 			<span class="lyr-quiz-cta__icon"><?php echo Helpers::icon('question'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
@@ -83,5 +88,103 @@ class Quiz_CTA extends Base_Widget {
 			<b><?php echo esc_html($settings['button_text'] ?? __('Kitöltöm', 'layero-shop-ui')); ?> &rsaquo;</b>
 		</a>
 		<?php
+	}
+
+	private function is_quiz_page() {
+		if (function_exists('is_page') && is_page(array('kviz', 'ajandekkereso'))) {
+			return true;
+		}
+
+		if (! function_exists('get_queried_object_id') || ! function_exists('get_post_field')) {
+			return false;
+		}
+
+		return 'kviz' === (string) get_post_field('post_name', get_queried_object_id());
+	}
+
+	private function render_quiz($settings) {
+		?>
+		<section class="lyr-quiz" data-layero-quiz>
+			<div class="lyr-quiz__head">
+				<span class="lyr-eyebrow"><?php echo esc_html($settings['eyebrow'] ?? __('Ajándékkereső', 'layero-shop-ui')); ?></span>
+				<div class="lyr-quiz__progress"><i data-layero-quiz-progress style="width:25%"></i></div>
+				<span class="lyr-quiz__count" data-layero-quiz-count>1 / 4</span>
+			</div>
+			<h2 data-layero-quiz-title><?php echo esc_html($settings['title'] ?? ''); ?></h2>
+			<p class="lyr-quiz__lead" data-layero-quiz-lead><?php echo esc_html($settings['text'] ?? ''); ?></p>
+			<div class="lyr-quiz__options" data-layero-quiz-options></div>
+			<button class="lyr-quiz__back" type="button" data-layero-quiz-back hidden><?php esc_html_e('Vissza', 'layero-shop-ui'); ?></button>
+			<div class="lyr-quiz__result" data-layero-quiz-result hidden>
+				<span class="lyr-eyebrow"><?php esc_html_e('Kész is', 'layero-shop-ui'); ?></span>
+				<h2><?php esc_html_e('Ezek illenek hozzá a legjobban.', 'layero-shop-ui'); ?></h2>
+				<p><?php esc_html_e('A válaszaid alapján válogattuk össze. Mindegyik személyre szabható, a pontos részleteket rendelés után egyeztetjük.', 'layero-shop-ui'); ?></p>
+				<div class="lyr-product-grid lyr-product-grid--cols-4" data-layero-quiz-products></div>
+				<div class="lyr-quiz__actions">
+					<button class="lyr-btn lyr-btn--dark" type="button" data-layero-quiz-restart><?php esc_html_e('Újrakezdem', 'layero-shop-ui'); ?></button>
+					<a class="lyr-btn lyr-btn--primary" href="<?php echo esc_url(Helpers::products_url()); ?>"><?php esc_html_e('Összes termék', 'layero-shop-ui'); ?></a>
+				</div>
+			</div>
+			<script type="application/json" data-layero-quiz-data><?php echo wp_json_encode($this->quiz_payload()); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></script>
+		</section>
+		<?php
+	}
+
+	private function quiz_payload() {
+		$products = array();
+		foreach (Shop_Content::products() as $product) {
+			$products[] = array(
+				'id' => $product['id'],
+				'name' => $product['name'],
+				'category' => $product['category'],
+				'price' => (int) $product['price'],
+				'regular_price' => (int) $product['regular_price'],
+				'badge' => $product['badge'],
+				'description' => $product['description'],
+				'image' => Shop_Content::asset_url($product['image']),
+				'url' => Helpers::product_url($product['id']),
+			);
+		}
+
+		return array(
+			'questions' => array(
+				array(
+					'title' => __('Kinek keresel ajándékot?', 'layero-shop-ui'),
+					'options' => array(
+						array('label' => __('Gyereknek vagy fiatalnak', 'layero-shop-ui'), 'tags' => array('lampak', 'rajongoi')),
+						array('label' => __('Páromnak vagy családtagnak', 'layero-shop-ui'), 'tags' => array('lampak', 'dekoraciok')),
+						array('label' => __('Ügyfélnek vagy csapatnak', 'layero-shop-ui'), 'tags' => array('ceges', 'kulcstartok')),
+						array('label' => __('Valami teljesen egyedi kell', 'layero-shop-ui'), 'tags' => array('egyedi')),
+					),
+				),
+				array(
+					'title' => __('Milyen alkalomra készül?', 'layero-shop-ui'),
+					'options' => array(
+						array('label' => __('Születésnap vagy névnap', 'layero-shop-ui'), 'tags' => array('lampak', 'rajongoi')),
+						array('label' => __('Karácsony vagy ünnepi meglepetés', 'layero-shop-ui'), 'tags' => array('lampak', 'dekoraciok')),
+						array('label' => __('Céges ajándék vagy rendezvény', 'layero-shop-ui'), 'tags' => array('ceges', 'kulcstartok')),
+						array('label' => __('Csak szeretnék valami különlegeset', 'layero-shop-ui'), 'tags' => array('egyedi', 'dekoraciok')),
+					),
+				),
+				array(
+					'title' => __('Milyen típusú ajándék illene hozzá?', 'layero-shop-ui'),
+					'options' => array(
+						array('label' => __('Világító, látványos darab', 'layero-shop-ui'), 'tags' => array('lampak')),
+						array('label' => __('Praktikus, hordható apróság', 'layero-shop-ui'), 'tags' => array('kulcstartok', 'ceges')),
+						array('label' => __('Lakásdekoráció vagy emléktárgy', 'layero-shop-ui'), 'tags' => array('dekoraciok', 'rajongoi')),
+						array('label' => __('Egy ötletből indulnánk ki', 'layero-shop-ui'), 'tags' => array('egyedi')),
+					),
+				),
+				array(
+					'title' => __('Milyen keretben gondolkodsz?', 'layero-shop-ui'),
+					'options' => array(
+						array('label' => __('50-150 RON', 'layero-shop-ui'), 'tags' => array('kulcstartok', 'dekoraciok')),
+						array('label' => __('150-250 RON', 'layero-shop-ui'), 'tags' => array('lampak', 'dekoraciok')),
+						array('label' => __('250 RON felett', 'layero-shop-ui'), 'tags' => array('ceges', 'rajongoi')),
+						array('label' => __('Ajánlat alapján is jó', 'layero-shop-ui'), 'tags' => array('egyedi')),
+					),
+				),
+			),
+			'products' => $products,
+		);
 	}
 }

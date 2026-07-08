@@ -3,6 +3,7 @@
 namespace LayeroShop\Widgets;
 
 use Elementor\Controls_Manager;
+use LayeroShop\Helpers;
 
 if (! defined('ABSPATH')) {
 	exit;
@@ -144,10 +145,10 @@ abstract class Base_Widget extends \Elementor\Widget_Base {
 
 	protected function get_link_url($link, $fallback = '#') {
 		if (is_array($link) && ! empty($link['url'])) {
-			return $link['url'];
+			return Helpers::normalize_shop_url($link['url']);
 		}
 
-		return $fallback;
+		return Helpers::normalize_shop_url($fallback);
 	}
 
 	protected function render_section_header($settings, $class = '') {

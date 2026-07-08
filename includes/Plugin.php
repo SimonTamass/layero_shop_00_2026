@@ -30,6 +30,7 @@ final class Plugin {
 		require_once LAYERO_SHOP_UI_PATH . 'includes/Assets.php';
 		require_once LAYERO_SHOP_UI_PATH . 'includes/WooCommerce.php';
 		require_once LAYERO_SHOP_UI_PATH . 'includes/Elementor.php';
+		require_once LAYERO_SHOP_UI_PATH . 'includes/Page_Builder.php';
 	}
 
 	public function load_textdomain() {
@@ -40,5 +41,6 @@ final class Plugin {
 		Assets::instance();
 		WooCommerce::instance();
 		Elementor::instance();
+		Page_Builder::init();
 	}
 }

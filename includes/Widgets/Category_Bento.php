@@ -29,7 +29,7 @@ class Category_Bento extends Base_Widget {
 			'eyebrow' => 'Kollekció',
 			'title' => 'Vásárlás kategória szerint.',
 			'button_text' => 'Összes termék',
-			'button_url' => array('url' => '/shop/'),
+			'button_url' => array('url' => '/termekek/'),
 		));
 		$this->add_heading_tag_control();
 		$this->add_control('slugs', array(

@@ -121,7 +121,7 @@ class Product_Spotlight extends Base_Widget {
 						<?php echo $demo['price'] ? esc_html(number_format_i18n($demo['price'], 0) . ' RON') : esc_html__('Ajánlatkérés', 'layero-shop-ui'); ?>
 						<small><?php echo esc_html__('-tól, egyedi gyártással', 'layero-shop-ui'); ?></small>
 					</div>
-					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(home_url('/product/' . $demo['id'] . '/')); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
+					<a class="lyr-btn lyr-btn--white" href="<?php echo esc_url(Helpers::product_url($demo['id'])); ?>"><?php echo esc_html($settings['button_text'] ?? __('Megnézem a terméket', 'layero-shop-ui')); ?></a>
 				</div>
 			<?php endif; ?>
 		</section>
