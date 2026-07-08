@@ -74,22 +74,79 @@ class Newsletter_Banner extends Base_Widget {
 
 	protected function render() {
 		$settings = $this->get_settings_for_display();
+		$title = $this->normalize_title($settings['title'] ?? '');
+		$note = $this->normalize_note($settings['note'] ?? '');
 		?>
 		<section class="lyr-newsletter">
 			<div class="lyr-newsletter__copy">
 				<span class="lyr-newsletter__icon"><?php echo Helpers::icon('mail'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-				<h2><?php echo esc_html($settings['title'] ?? ''); ?></h2>
+				<h2><?php echo esc_html($title); ?></h2>
 				<p><?php echo esc_html($settings['text'] ?? ''); ?></p>
 				<form data-layero-newsletter>
 					<input type="email" required placeholder="<?php echo esc_attr($settings['placeholder'] ?? __('E-mail címed', 'layero-shop-ui')); ?>" aria-label="<?php echo esc_attr__('E-mail cím', 'layero-shop-ui'); ?>">
 					<button class="lyr-btn lyr-btn--dark" type="submit"><?php echo esc_html($settings['button_text'] ?? __('Feliratkozom', 'layero-shop-ui')); ?></button>
 				</form>
-				<small data-layero-newsletter-note><?php echo esc_html($settings['note'] ?? ''); ?></small>
+				<small data-layero-newsletter-note><?php echo wp_kses($note, array('a' => array('href' => array()))); ?></small>
 			</div>
 			<?php if ('yes' === ($settings['show_ticket'] ?? 'yes')) : ?>
-				<div class="lyr-newsletter__ticket" aria-hidden="true"><b>%</b><span><?php echo esc_html($settings['discount_value'] ?? '-10'); ?></span></div>
+				<figure class="lyr-newsletter__art" aria-hidden="true">
+					<svg viewBox="0 0 440 320" xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<linearGradient id="lyr-nl-cyan" x1="0" y1="0" x2="1" y2="1">
+								<stop offset="0" stop-color="#26d4ef"/>
+								<stop offset="1" stop-color="#0a7c92"/>
+							</linearGradient>
+							<linearGradient id="lyr-nl-gold" x1="0" y1="0" x2="1" y2="1">
+								<stop offset="0" stop-color="#f6d29a"/>
+								<stop offset="1" stop-color="#d99a2b"/>
+							</linearGradient>
+							<filter id="lyr-nl-shadow" x="-40%" y="-40%" width="180%" height="180%">
+								<feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#0a1e2e" flood-opacity="0.22"/>
+							</filter>
+						</defs>
+						<circle cx="52" cy="58" r="7" fill="#26d4ef" opacity="0.45"/>
+						<circle cx="396" cy="84" r="5" fill="#d99a2b" opacity="0.5"/>
+						<circle cx="368" cy="262" r="8" fill="#26d4ef" opacity="0.3"/>
+						<circle cx="76" cy="248" r="4" fill="#d99a2b" opacity="0.45"/>
+						<path d="M330 34c6 2 8 8 4 13" stroke="#0a7c92" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.35"/>
+						<path d="M96 128c-6 3-12 0-13-6" stroke="#d99a2b" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.4"/>
+						<g transform="rotate(-10 210 170)" filter="url(#lyr-nl-shadow)">
+							<rect x="140" y="60" width="150" height="212" rx="18" fill="url(#lyr-nl-cyan)"/>
+							<circle cx="215" cy="60" r="11" fill="var(--lyr-surface, #f5f5f7)"/>
+							<circle cx="215" cy="272" r="11" fill="var(--lyr-surface, #f5f5f7)"/>
+							<line x1="158" y1="166" x2="272" y2="166" stroke="#fff" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round" opacity="0.75"/>
+							<text x="215" y="140" text-anchor="middle" font-family="Sora, Inter, sans-serif" font-weight="800" font-size="64" fill="#fff">%</text>
+							<text x="215" y="234" text-anchor="middle" font-family="Sora, Inter, sans-serif" font-weight="700" font-size="34" fill="#fff" opacity="0.92"><?php echo esc_html($this->normalize_discount($settings['discount_value'] ?? '-10')); ?></text>
+						</g>
+						<g transform="rotate(12 118 218)" filter="url(#lyr-nl-shadow)">
+							<rect x="62" y="158" width="104" height="130" rx="14" fill="url(#lyr-nl-gold)"/>
+							<circle cx="114" cy="158" r="8" fill="var(--lyr-surface, #f5f5f7)"/>
+							<circle cx="114" cy="288" r="8" fill="var(--lyr-surface, #f5f5f7)"/>
+							<text x="114" y="238" text-anchor="middle" font-family="Sora, Inter, sans-serif" font-weight="800" font-size="46" fill="#fff">%</text>
+						</g>
+					</svg>
+				</figure>
 			<?php endif; ?>
 		</section>
 		<?php
+	}
+
+	private function normalize_title($title) {
+		return preg_replace('/^-10%/', '–10%', (string) $title);
+	}
+
+	private function normalize_discount($value) {
+		return preg_replace('/^-/', '–', (string) $value);
+	}
+
+	private function normalize_note($note) {
+		$note = (string) $note;
+		if (false !== stripos($note, 'adatvedelem') || false !== stripos($note, 'adatvéd')) {
+			return $note;
+		}
+
+		$note = preg_replace('/\s*Demo.*$/u', '', $note);
+
+		return trim($note) . ' Részletek az <a href="../adatvedelem.html">adatvédelmi tájékoztatóban</a>. (Demo űrlap.)';
 	}
 }

@@ -252,9 +252,9 @@ final class Shop_Content {
 	public static function why_shop_items() {
 		return array(
 			array('icon' => 'crown', 'title' => 'Exkluzív ajánlatok', 'text' => 'a hivatalos Layero shopban'),
-			array('icon' => 'shield', 'title' => '100% biztonságos fizetés', 'text' => 'bankkártya, utánvét vagy átutalás'),
+			array('icon' => 'shield', 'title' => '100%', 'text' => 'biztonságos fizetés'),
 			array('icon' => 'clock', 'title' => '2 év jótállás', 'text' => 'minden termékre'),
-			array('icon' => 'headset', 'title' => 'Emberi ügyfélszolgálat', 'text' => 'válasz 24 órán belül'),
+			array('icon' => 'headset', 'title' => 'Emberi ügyfélszolgálat', 'text' => '— válasz 24 órán belül'),
 		);
 	}
 
@@ -264,15 +264,15 @@ final class Shop_Content {
 			'text' => 'Csak új feliratkozóknak — a kuponkódot e-mailben küldjük.',
 			'placeholder' => 'E-mail címed',
 			'button_text' => 'Feliratkozom',
-			'note' => 'Havonta egyszer írunk — új termékek és szezonális kedvezmények. Bármikor leiratkozhatsz. Demo űrlap.',
+			'note' => 'Havonta egyszer írunk — új termékek és szezonális kedvezmények. Bármikor leiratkozhatsz. Részletek az <a href="../adatvedelem.html">adatvédelmi tájékoztatóban</a>. (Demo űrlap.)',
 		);
 	}
 
 	public static function footnotes() {
 		return array(
 			array('text' => 'Az ingyenes szállítás a 200 lej feletti kosárértékre vonatkozik, Románia területén. Alatta a szállítási díj 25 lej.'),
-			array('text' => 'A minimális rendelési érték 50 lej. Az egyedi gyártású termékek végleges ára a személyre szabás részleteitől függhet.'),
-			array('text' => 'A PLA növényi alapú, ipari komposztálásban lebomló anyag. A műhelyünk áramát napelemek adják.'),
+			array('text' => 'A minimális rendelési érték 50 lej. Az árak tájékoztató jellegűek; az egyedi gyártású termékek végleges ára a személyre szabás részleteitől függhet.'),
+			array('text' => 'A PLA növényi (kukoricakeményítő) alapú, ipari komposztálásban lebomló anyag. A műhelyünk áramát napelemek adják, így a gyártás CO₂-kibocsátása közel nulla.'),
 		);
 	}
 

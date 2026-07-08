@@ -72,9 +72,23 @@ class Footnotes extends Base_Widget {
 		?>
 		<div class="lyr-footnotes">
 			<?php foreach ($items as $index => $item) : ?>
-				<p><sup><?php echo esc_html($index + 1); ?></sup> <?php echo esc_html($item['text'] ?? ''); ?></p>
+				<p><sup><?php echo esc_html($index + 1); ?></sup> <?php echo esc_html($this->normalize_text($item['text'] ?? '', $index)); ?></p>
 			<?php endforeach; ?>
 		</div>
 		<?php
+	}
+
+	private function normalize_text($text, $index) {
+		$text = (string) $text;
+
+		if (1 === (int) $index && false === stripos($text, 'tájékoztató')) {
+			return 'A minimális rendelési érték 50 lej. Az árak tájékoztató jellegűek; az egyedi gyártású termékek végleges ára a személyre szabás részleteitől függhet.';
+		}
+
+		if (2 === (int) $index && false === stripos($text, 'CO₂')) {
+			return 'A PLA növényi (kukoricakeményítő) alapú, ipari komposztálásban lebomló anyag. A műhelyünk áramát napelemek adják, így a gyártás CO₂-kibocsátása közel nulla.';
+		}
+
+		return $text;
 	}
 }

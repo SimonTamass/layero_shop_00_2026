@@ -95,6 +95,7 @@ class Why_Shop extends Base_Widget {
 			<?php $this->render_section_header($settings); ?>
 			<div class="lyr-why-shop__grid">
 				<?php foreach ($items as $item) : ?>
+					<?php $item = $this->normalize_item($item); ?>
 					<article>
 						<?php echo Helpers::icon($item['icon'] ?? 'check'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<p><b><?php echo esc_html($item['title'] ?? ''); ?></b> <?php echo esc_html($item['text'] ?? ''); ?></p>
@@ -103,5 +104,26 @@ class Why_Shop extends Base_Widget {
 			</div>
 		</section>
 		<?php
+	}
+
+	private function normalize_item($item) {
+		$title = isset($item['title']) ? (string) $item['title'] : '';
+		$text = isset($item['text']) ? (string) $item['text'] : '';
+
+		if (false !== stripos($title, '100%') && false !== stripos($title, 'fizet')) {
+			$item['title'] = '100%';
+			$item['text'] = 'biztonságos fizetés';
+		}
+
+		if (false !== stripos($text, 'bankk') || false !== stripos($text, 'utal')) {
+			$item['title'] = '100%';
+			$item['text'] = 'biztonságos fizetés';
+		}
+
+		if (false !== stripos($title, 'ügyf') && false === strpos($text, '—')) {
+			$item['text'] = '— ' . ltrim($text);
+		}
+
+		return $item;
 	}
 }
