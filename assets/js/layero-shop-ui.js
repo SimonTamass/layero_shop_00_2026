@@ -117,45 +117,6 @@
 		start();
 	}
 
-	function initLab(root) {
-		if (root.dataset.layeroLabReady === '1') return;
-		root.dataset.layeroLabReady = '1';
-
-		var input = root.querySelector('input');
-		var name = root.querySelector('[data-layero-lab-name]');
-		var link = root.querySelector('[data-layero-lab-link]');
-		var form = root.querySelector('form');
-		var result = root.querySelector('[data-layero-lab-result]');
-		var stats = root.querySelector('[data-layero-lab-stats]');
-		if (!input || !name || !form) return;
-
-		function sync() {
-			var value = input.value.trim() || 'Layero';
-			name.textContent = value;
-			if (stats) {
-				stats.textContent = value.length + ' karakter, kb. ' + Math.max(9, value.length * 2) + ' nyomtatott réteg';
-			}
-			if (link) {
-				try {
-					var url = new URL(link.getAttribute('href') || window.location.href, window.location.origin);
-					url.searchParams.set('layero_nev', value);
-					link.setAttribute('href', url.pathname + url.search + url.hash);
-				} catch (error) {
-					var href = (link.getAttribute('href') || '').split('#')[0];
-					link.setAttribute('href', href + (href.indexOf('?') === -1 ? '?' : '&') + 'layero_nev=' + encodeURIComponent(value));
-				}
-			}
-		}
-
-		input.addEventListener('input', sync);
-		form.addEventListener('submit', function (event) {
-			event.preventDefault();
-			sync();
-			if (result) result.hidden = false;
-		});
-		sync();
-	}
-
 	function wishGet() {
 		try {
 			var items = JSON.parse(window.localStorage.getItem(WISH_KEY) || '[]');
@@ -395,7 +356,6 @@
 
 	function boot(context) {
 		(context || document).querySelectorAll('[data-layero-slider]').forEach(initSlider);
-		(context || document).querySelectorAll('[data-layero-lab]').forEach(initLab);
 		(context || document).querySelectorAll('[data-layero-quiz]').forEach(initQuiz);
 		(context || document).querySelectorAll('[data-layero-carousel]').forEach(initCarousel);
 		(context || document).querySelectorAll('[data-layero-newsletter]').forEach(initNewsletter);

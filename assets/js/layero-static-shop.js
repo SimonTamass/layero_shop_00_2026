@@ -1374,8 +1374,6 @@
       });
     }
 
-    // Layero Lab — a 3D nyomtatás-szimulátort a lab-3d.js modul kezeli (Three.js)
-
     // számláló-animáció, amikor a statisztika-sáv látótérbe ér
     var counters = $all('[data-sh-count]');
     if (counters.length) {
@@ -1846,7 +1844,7 @@
         perszView.textContent = v;
         perszView.classList.toggle('is-on', v.length > 0);
       });
-      // a főoldali Layero Lab-ból érkező név előtöltése
+      // URL-ből érkező név előtöltése
       var labNev = (param('nev') || '').trim().slice(0, 18);
       if (labNev) {
         persz.value = labNev;

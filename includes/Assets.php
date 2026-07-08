@@ -19,11 +19,9 @@ final class Assets {
 
 	private function __construct() {
 		add_action('init', array($this, 'register'));
-		add_action('wp_head', array($this, 'print_importmap'), 1);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue'));
 		add_action('elementor/frontend/after_register_styles', array($this, 'register'));
 		add_action('elementor/frontend/after_register_scripts', array($this, 'register'));
-		add_filter('script_loader_tag', array($this, 'module_script_tag'), 10, 3);
 	}
 
 	public function register() {
@@ -64,14 +62,6 @@ final class Assets {
 			LAYERO_SHOP_UI_VERSION,
 			true
 		);
-
-		wp_register_script(
-			'layero-lab-3d',
-			LAYERO_SHOP_UI_URL . 'assets/js/lab-3d.js',
-			array(),
-			LAYERO_SHOP_UI_VERSION,
-			true
-		);
 	}
 
 	public function enqueue() {
@@ -80,7 +70,6 @@ final class Assets {
 		wp_enqueue_script('layero-shop-ui');
 		wp_enqueue_script('layero-static-data');
 		wp_enqueue_script('layero-static-shop');
-		wp_enqueue_script('layero-lab-3d');
 
 		wp_add_inline_script(
 			'layero-static-data',
@@ -119,29 +108,5 @@ final class Assets {
 				),
 			)
 		);
-	}
-
-	public function print_importmap() {
-		if (is_admin()) {
-			return;
-		}
-		?>
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
-					"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
-				}
-			}
-		</script>
-		<?php
-	}
-
-	public function module_script_tag($tag, $handle, $src) {
-		if ('layero-lab-3d' !== $handle) {
-			return $tag;
-		}
-
-		return '<script type="module" src="' . esc_url($src) . '" id="' . esc_attr($handle) . '-js"></script>' . "\n";
 	}
 }

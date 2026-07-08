@@ -39,7 +39,6 @@ final class Elementor {
 			'Value_Marquee',
 			'Category_Bento',
 			'Process_Steps',
-			'Lab_Preview',
 			'Product_Grid',
 			'Quiz_CTA',
 			'Product_Spotlight',

@@ -25,7 +25,6 @@ Az Elementor szerkesztőben a `Layero Shop` kategória alatt:
 - `Layero érték-marquee`
 - `Layero kategóriák`
 - `Layero folyamat lépések`
-- `Layero Lab előnézet`
 - `Layero termékrács`
 - `Layero ajándékkereső CTA`
 - `Layero kiemelt termék`
